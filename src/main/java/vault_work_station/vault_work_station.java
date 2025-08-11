@@ -1,22 +1,15 @@
 package vault_work_station;
 
-import Item.Items;
+import Item.ModItems;
+import block.ModBlocks;
+import block.entity.custom.ModBlockEntities;
 import com.mojang.logging.LogUtils;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
-
-
-import javax.naming.directory.ModificationItem;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(vault_work_station.VAULT_WORK_STATION)
@@ -33,7 +26,10 @@ public class vault_work_station {
         
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        Items.register(eventBus);
+        ModBlockEntities.register(eventBus);
+        ModBlocks.register(eventBus);
+
+        ModItems.register(eventBus);
         eventBus.addListener(this::setup);
 
         MinecraftForge.EVENT_BUS.register(this);

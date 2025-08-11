@@ -1,4 +1,4 @@
-package Item;
+package vault_work_station.Item;
 
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;

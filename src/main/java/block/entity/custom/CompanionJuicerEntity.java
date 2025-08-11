@@ -1,6 +1,7 @@
 package block.entity.custom;
 
 import Item.ModItems;
+import block.entity.custom.menus.CompanionJuicerMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -38,7 +39,7 @@ public class CompanionJuicerEntity extends BlockEntity implements MenuProvider {
     public static final int OUTPUT_SLOT_2 = 4; // particle_fragment
     public static final int OUTPUT_SLOT_3 = 5; // relic_fragment
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler(6) { // 3 input, 3 output slots
+    public final ItemStackHandler itemHandler = new ItemStackHandler(6) { // 3 input, 3 output slots
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
@@ -104,7 +105,7 @@ public class CompanionJuicerEntity extends BlockEntity implements MenuProvider {
     }
 
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, CompanionJuicerEntity pBlockEntity) {
-        if(hasRecipe(pBlockEntity)) {
+        if (hasRecipe(pBlockEntity)) {
             craftItem(pBlockEntity);
         }
     }
@@ -155,5 +156,31 @@ public class CompanionJuicerEntity extends BlockEntity implements MenuProvider {
         boolean canOutputRelic = entity.itemHandler.getStackInSlot(OUTPUT_SLOT_3).getCount() < entity.itemHandler.getStackInSlot(OUTPUT_SLOT_3).getMaxStackSize();
 
         return hasEgg && hasParticle && hasRelic && (canOutputEssence || canOutputParticle || canOutputRelic);
+    }
+
+    // Add this method to check if the player can still interact
+    public boolean stillValid(Player player) {
+        if (this.level.getBlockEntity(this.worldPosition) != this) {
+            return false;
+        } else {
+            return player.distanceToSqr((double) this.worldPosition.getX() + 0.5D,
+                    (double) this.worldPosition.getY() + 0.5D,
+                    (double) this.worldPosition.getZ() + 0.5D) <= 64.0D;
+        }
+    }
+
+    // Add this to sync data to client
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag tag = new CompoundTag();
+        saveAdditional(tag);
+        return tag;
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag) {
+        if (tag != null) {
+            load(tag);
+        }
     }
 }

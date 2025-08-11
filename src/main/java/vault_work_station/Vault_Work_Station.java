@@ -3,6 +3,7 @@ package vault_work_station;
 import Item.ModItems;
 import block.ModBlocks;
 import block.entity.custom.ModBlockEntities;
+import block.entity.custom.menus.screen.ModMenuTypes;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -11,30 +12,26 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-// The value here should match an entry in the META-INF/mods.toml file
-@Mod(vault_work_station.VAULT_WORK_STATION)
-public class vault_work_station {
+@Mod(Vault_Work_Station.MOD_ID)
+public class Vault_Work_Station {  // Fixed class name to follow Java conventions
 
     public static final String MOD_ID = "vault_work_station";
-    // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
-
-    public static final String VAULT_WORK_STATION = "vault_work_station";
-
-    public vault_work_station() {
-        
+    public Vault_Work_Station() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        ModBlockEntities.register(eventBus);
-        ModBlocks.register(eventBus);
-
+        // Register all components
         ModItems.register(eventBus);
-        eventBus.addListener(this::setup);
+        ModBlocks.register(eventBus);
+        ModBlockEntities.register(eventBus);
+        ModMenuTypes.MENUS.register(eventBus);
 
+        eventBus.addListener(this::setup);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
+        // Initialization code if needed
     }
 }

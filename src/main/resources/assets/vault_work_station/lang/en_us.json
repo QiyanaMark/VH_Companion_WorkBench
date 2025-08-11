@@ -1,6 +1,6 @@
 {
- "item.vault_work_station.companionessence": "Companion Essence",
- "item.vault_work_station.particlefragment": "Particle Fragment",
- "item.vault_work_station.relicfragment": "Relic Fragment",
+ "item.Vault_Work_Station.companionessence": "Companion Essence",
+ "item.Vault_Work_Station.particlefragment": "Particle Fragment",
+ "item.Vault_Work_Station.relicfragment": "Relic Fragment",
  "itemGroup.companiontab": "Companion Tab"
 }

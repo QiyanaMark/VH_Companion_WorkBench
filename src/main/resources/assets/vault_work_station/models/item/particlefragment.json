@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "vault_work_station:item/particlefragment"
+    "layer0": "Vault_Work_Station:item/particlefragment"
   }
 }

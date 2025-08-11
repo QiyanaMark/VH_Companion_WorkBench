@@ -13,13 +13,14 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import vault_work_station.vault_work_station;
+import vault_work_station.Vault_Work_Station;
+
 
 import java.util.function.Supplier;
 
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
-            DeferredRegister.create(ForgeRegistries.BLOCKS, vault_work_station.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.BLOCKS, Vault_Work_Station.MOD_ID);
 
     public static final RegistryObject<Block> COMPANION_JUICER = registerBlock("companion_juicer",
             () -> new CompanionBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()), CompanionTab.COMPANION_TAB);

@@ -6,11 +6,11 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import vault_work_station.vault_work_station;
+import vault_work_station.Vault_Work_Station;
 
 public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
-            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, vault_work_station.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Vault_Work_Station.MOD_ID);
 
     public static final RegistryObject<BlockEntityType<CompanionJuicerEntity>> COMPANION_JUICER =
             BLOCK_ENTITIES.register("companion_juicer.json", () ->

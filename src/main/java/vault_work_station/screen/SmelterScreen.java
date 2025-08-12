@@ -14,33 +14,68 @@ public class SmelterScreen extends AbstractContainerScreen<SmelterMenu> {
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(vault_work_station.MOD_ID, "textures/gui/smelter_gui.png");
 
+    // Arrow configuration (pointing down)
+    private static final int ARROW_X = 80;
+    private static final int ARROW_Y = 36;
+    private static final int ARROW_WIDTH = 22;
+    private static final int ARROW_HEIGHT = 16;
+    private static final int ARROW_U = 176;
+    private static final int ARROW_V = 0;
+
     public SmelterScreen(SmelterMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
         this.imageWidth = 176;
         this.imageHeight = 166;
+        this.inventoryLabelY = this.imageHeight - 94;
     }
 
     @Override
     protected void renderBg(PoseStack poseStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
-        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
-        int x = (this.width - this.imageWidth) / 2;
-        int y = (this.height - this.imageHeight) / 2;
-        this.blit(poseStack, x, y, 0, 0, this.imageWidth, this.imageHeight);
+        int x = (width - imageWidth) / 2;
+        int y = (height - imageHeight) / 2;
+
+        this.blit(poseStack, x, y, 0, 0, imageWidth, imageHeight);
+
+        int progress = menu.getSmeltProgress();
+        this.blit(poseStack,
+                x + ARROW_X,
+                y + ARROW_Y,
+                ARROW_U, ARROW_V,
+                ARROW_WIDTH, progress);
     }
 
     @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(poseStack);
+        renderBackground(poseStack);
         super.render(poseStack, mouseX, mouseY, partialTicks);
-        this.renderTooltip(poseStack, mouseX, mouseY);
+        renderTooltip(poseStack, mouseX, mouseY);
     }
+
+
 
     @Override
     protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
-        this.font.draw(poseStack, this.title, 8, 6, 4210752);
-        this.font.draw(poseStack, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 4210752);
+        poseStack.pushPose();
+        poseStack.scale(0.8f, 0.8f, 0.8f); // 80% size
+        this.font.draw(poseStack,
+                this.title,
+                10,  // Adjusted X for scaling
+                6,   // Adjusted Y for scaling
+                0x404040);
+        poseStack.popPose();
+
+        // Inventory label
+        poseStack.pushPose();
+        poseStack.scale(0.8f, 0.8f, 0.8f);
+        this.font.draw(poseStack,
+                this.playerInventoryTitle,
+                10,
+                (this.imageHeight - 94)/0.8f, // Compensate for scaling
+                0x404040);
+        poseStack.popPose();
     }
 }

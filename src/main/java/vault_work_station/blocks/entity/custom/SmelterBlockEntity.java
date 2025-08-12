@@ -123,6 +123,9 @@ public class SmelterBlockEntity extends BlockEntity implements MenuProvider {
         }
         return ItemStack.EMPTY;
     }
+    public int getSmeltProgressScaled(int scale) {
+        return this.smeltTime * scale / SMELT_TIME_TOTAL;
+    }
 
     // NBT save/load
     @Override

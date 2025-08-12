@@ -3,7 +3,7 @@
  "item.vault_work_station.particlefragment": "Particle Fragment",
  "item.vault_work_station.relicfragment": "Relic Fragment",
  "itemGroup.companiontab": "Companion Tab",
+ "container.smelter_block": "Companion Recycler",
 
-
- "block.vault_work_station.smelter_block_entity": "Companion Recycler"
+ "block.vault_work_station.smelter_block": "Companion Recycler"
 }

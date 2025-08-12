@@ -1,0 +1,6 @@
+{
+  "type": "vault_work_station:smelting",
+  "input": { "item": "the_vault:companion" },
+  "output": { "item": "vault_work_station:processed_companionessence", "count": 1 },
+  "processingTime": 200
+}

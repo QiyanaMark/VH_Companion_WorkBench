@@ -1,0 +1,6 @@
+{
+  "type": "vault_work_station:smelting",
+  "input": { "item": "the_vault:companion_relic" },
+  "output": { "item": "vault_work_station:processed_relicfragment" },
+  "processingTime": 200
+}

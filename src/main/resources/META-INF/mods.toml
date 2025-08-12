@@ -20,6 +20,13 @@ modId = "vault_work_station" #mandatory
 version = "1.18.2" #mandatory
 # A display name for the mod
 displayName = "Companion Station" #mandatory
+
+[[dependencies.vault_work_station]]
+modId="jei"
+mandatory=false
+versionRange="[9.7.1,)"
+ordering="AFTER"
+side="BOTH"
 # A URL to query for updates for this mod. See the JSON update specification https://docs.minecraftforge.net/en/latest/misc/updatechecker/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI

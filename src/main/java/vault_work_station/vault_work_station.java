@@ -2,6 +2,8 @@ package vault_work_station;
 import net.minecraft.client.gui.Gui;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import vault_work_station.recipes.ModRecipeSerializers;
+import vault_work_station.recipes.ModRecipeTypes;
 import vault_work_station.screen.SmelterScreen;
 import vault_work_station.blocks.ModBlocks;
 import vault_work_station.blocks.entity.ModBlockEntities;
@@ -31,6 +33,10 @@ public class vault_work_station {
         ModBlocks.BLOCKS.register(modBus);
         ModBlockEntities.BLOCK_ENTITIES.register(modBus);
         ModMenuTypes.MENUS.register(modBus);
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ModRecipeTypes.RECIPE_TYPES.register(bus);
+        ModRecipeSerializers.SERIALIZERS.register(bus);
 
         // Register event listeners
         modBus.addListener(this::commonSetup);  // For common setup (networking, etc.)

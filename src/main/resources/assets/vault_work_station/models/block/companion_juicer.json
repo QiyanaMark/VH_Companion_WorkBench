@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "Vault_Work_Station:block/companion_juicer"
-  }
-}

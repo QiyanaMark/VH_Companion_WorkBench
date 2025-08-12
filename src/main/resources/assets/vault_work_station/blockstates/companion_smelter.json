@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=north": { "model": "vault_work_station:block/companion_smelter" },
-    "facing=south": { "model": "vault_work_station:block/companion_smelter", "y": 180 },
-    "facing=west": { "model": "vault_work_station:block/companion_smelter", "y": 270 },
-    "facing=east": { "model": "vault_work_station:block/companion_smelter", "y": 90 }
-  }
-}

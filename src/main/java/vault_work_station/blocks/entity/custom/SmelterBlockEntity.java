@@ -1,4 +1,5 @@
 package vault_work_station.blocks.entity.custom;
+import net.minecraft.network.chat.Component;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -44,13 +45,16 @@ public class SmelterBlockEntity extends BlockEntity implements MenuProvider {
     public static void tick(Level level, BlockPos pos, BlockState state, SmelterBlockEntity be) {
         if (level.isClientSide) return;
 
+        // Get the closest player within 5 blocks
+        Player player = level.getNearestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 5, null);
+
         ItemStack input = be.itemHandler.getStackInSlot(0);
         ItemStack output = be.itemHandler.getStackInSlot(1);
 
         if (be.canSmelt(input, output)) {
             be.smeltTime++;
             if (be.smeltTime >= SMELT_TIME_TOTAL) {
-                be.doSmelt();
+                be.doSmelt(player); // Pass the player here
                 be.smeltTime = 0;
             }
             be.setChanged();
@@ -68,31 +72,39 @@ public class SmelterBlockEntity extends BlockEntity implements MenuProvider {
         return out.getCount() + result.getCount() <= out.getMaxStackSize();
     }
 
-    private void doSmelt() {
+    private void doSmelt(@Nullable Player player) {  // Add @Nullable annotation
         ItemStack in = itemHandler.getStackInSlot(0);
         ItemStack result = getResult(in);
         ItemStack out = itemHandler.getStackInSlot(1);
+
+        // Delete companion UUID from player data if present
+        if (player != null && in.hasTag()) {
+            CompoundTag tag = in.getTag();
+            if (tag != null && tag.hasUUID("uuid")) {
+                player.getPersistentData().remove("vault_companions." + tag.getUUID("uuid"));
+            }
+        }
+
+        // Original smelting logic
         if (out.isEmpty()) {
             itemHandler.setStackInSlot(1, result.copy());
         } else if (out.sameItem(result)) {
-            ItemStack copy = out.copy();
-            copy.grow(result.getCount());
-            itemHandler.setStackInSlot(1, copy);
+            out.grow(result.getCount());
         }
-        // consume one input
-        ItemStack inCopy = in.copy();
-        inCopy.shrink(1);
-        itemHandler.setStackInSlot(0, inCopy);
+        in.shrink(1);
     }
 
     // Hardcoded allowed inputs -> outputs
     private ItemStack getResult(ItemStack stack) {
-        if (stack.is(ModItems.COMPANION_EGG.get())) {
+        // Vault Hunters inputs → Your mod's outputs
+        if (stack.getItem().getRegistryName().toString().equals("the_vault:companion")) {
             return new ItemStack(ModItems.COMPANION_ESSENCE.get());
-        } else if (stack.is(ModItems.COMPANION_RELIC.get())) {
-            return new ItemStack(ModItems.RELIC_FRAGMENT.get());
-        } else if (stack.is(ModItems.COMPANION_PARTICLE.get())) {
+        }
+        else if (stack.getItem().getRegistryName().toString().equals("the_vault:companion_particle_trail")) {
             return new ItemStack(ModItems.PARTICLE_FRAGMENT.get());
+        }
+        else if (stack.getItem().getRegistryName().toString().equals("the_vault:companion_relic")) {
+            return new ItemStack(ModItems.RELIC_FRAGMENT.get());
         }
         return ItemStack.EMPTY;
     }
@@ -123,10 +135,10 @@ public class SmelterBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     // MenuProvider methods
-    @Override
     public net.minecraft.network.chat.Component getDisplayName() {
-        return net.minecraft.network.chat.Component.translatable("container." + "smelter_block");
+        return new net.minecraft.network.chat.TranslatableComponent("container.smelter_block");
     }
+
 
     @Nullable
     @Override

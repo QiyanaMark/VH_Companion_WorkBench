@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "vault_work_station:block/smelter_block"
+    }
+  }
+}

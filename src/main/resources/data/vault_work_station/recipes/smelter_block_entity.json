@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "VDV",
+    "GIG",
+    "VDV"
+  ],
+  "key": {
+    "V": {
+      "item": "the_vault:vault_diamond_block"
+    },
+    "D": {
+      "item": "the_vault:gem_pog"
+    },
+    "G": {
+      "item": "the_vault:companion_egg"
+    },
+    "I": {
+      "item": "the_vault:companion_incubator"
+    }
+  },
+  "result": {
+    "item": "vault_work_station:smelter_block",
+    "count": 1
+  }
+}

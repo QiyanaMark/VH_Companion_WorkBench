@@ -1,6 +1,26 @@
 {
-  "parent": "block/cube_all",
+  "parent": "block/cube",
   "textures": {
-    "all": "vault_work_station:block/smelter_block"
-  }
+    "particle": "vault_work_station:block/smelter_block_front",
+    "down": "vault_work_station:block/smelter_block_bottom",
+    "up": "vault_work_station:block/smelter_block_top",
+    "north": "vault_work_station:block/smelter_block_front",
+    "east": "vault_work_station:block/smelter_block_side",
+    "south": "vault_work_station:block/smelter_block_side",
+    "west": "vault_work_station:block/smelter_block_side"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "down":  { "texture": "#down", "cullface": "down" },
+        "up":    { "texture": "#up", "cullface": "up" },
+        "north": { "texture": "#north", "cullface": "north" },
+        "south": { "texture": "#south", "cullface": "south" },
+        "west":  { "texture": "#west", "cullface": "west" },
+        "east":  { "texture": "#east", "cullface": "east" }
+      }
+    }
+  ]
 }

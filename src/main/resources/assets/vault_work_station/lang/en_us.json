@@ -3,7 +3,10 @@
  "item.vault_work_station.particlefragment": "Particle Fragment",
  "item.vault_work_station.relicfragment": "Relic Fragment",
  "itemGroup.companiontab": "Companion Tab",
- "container.smelter_block": "Companion Recycler",
- "jei.vault_work_station.smelting": "Smelter",
- "block.vault_work_station.smelter_block": "Companion Recycler"
+ "block.vault_work_station.smelter_block": "Companion Recycler",
+
+
+ "jei.vault_work_station.relic_fragment.desc": "a relic fragment obtained by smelting a relic fragment",
+ "jei.vault_work_station.particle_fragment.desc": "a particle fragment obtained by smelting a particle trail",
+ "jei.vault_work_station.companion_essence.desc": "an essence obtained by smelting a companion through the companion recycler."
 }

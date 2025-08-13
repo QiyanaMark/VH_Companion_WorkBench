@@ -154,7 +154,7 @@ public class SmelterBlockEntity extends BlockEntity implements MenuProvider {
 
     // MenuProvider methods
     public net.minecraft.network.chat.Component getDisplayName() {
-        return new net.minecraft.network.chat.TranslatableComponent("container.smelter_block");
+        return new net.minecraft.network.chat.TranslatableComponent("Companion Reycler");
     }
 
 

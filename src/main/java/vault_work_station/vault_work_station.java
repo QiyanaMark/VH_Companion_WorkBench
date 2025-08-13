@@ -1,24 +1,18 @@
 package vault_work_station;
-import net.minecraft.client.gui.Gui;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import vault_work_station.recipes.ModRecipeSerializers;
-import vault_work_station.recipes.ModRecipeTypes;
 import vault_work_station.screen.SmelterScreen;
 import vault_work_station.blocks.ModBlocks;
 import vault_work_station.blocks.entity.ModBlockEntities;
-import vault_work_station.screen.slots.SmelterMenu;
 import vault_work_station.Item.ModItems;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import vault_work_station.screen.slots.ModMenuTypes;
-import vault_work_station.screen.slots.SmelterMenu;
+
+
 
 @Mod(vault_work_station.MOD_ID)
 public class vault_work_station {
@@ -34,9 +28,6 @@ public class vault_work_station {
         ModBlockEntities.BLOCK_ENTITIES.register(modBus);
         ModMenuTypes.MENUS.register(modBus);
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        ModRecipeTypes.RECIPE_TYPES.register(bus);
-        ModRecipeSerializers.SERIALIZERS.register(bus);
 
         // Register event listeners
         modBus.addListener(this::commonSetup);  // For common setup (networking, etc.)

@@ -16,11 +16,11 @@ import vault_work_station.recipe.ModRecipeTypes;
 import vault_work_station.screen.CompanionWorkBenchScreen;
 import vault_work_station.screen.SmelterScreen;
 
-@Mod(vault_work_station.MOD_ID)
-public class vault_work_station {
+@Mod(VaultWorkStation.MOD_ID)
+public class VaultWorkStation {
     public static final String MOD_ID = "vault_work_station";
 
-    public vault_work_station() {
+    public VaultWorkStation() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register DeferredRegistries (ONCE each)

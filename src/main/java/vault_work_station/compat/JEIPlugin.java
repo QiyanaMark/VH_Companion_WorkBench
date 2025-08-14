@@ -9,7 +9,7 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.TranslatableComponent;
-import vault_work_station.vault_work_station;
+import vault_work_station.VaultWorkStation;
 import vault_work_station.Items.ModItems;
 import vault_work_station.blocks.ModBlocks;
 
@@ -17,7 +17,7 @@ import vault_work_station.blocks.ModBlocks;
 public class JEIPlugin implements IModPlugin {
 
     private static final ResourceLocation PLUGIN_ID =
-            new ResourceLocation(vault_work_station.MOD_ID, "jei_plugin");
+            new ResourceLocation(VaultWorkStation.MOD_ID, "jei_plugin");
 
     @Override
     public ResourceLocation getPluginUid() {

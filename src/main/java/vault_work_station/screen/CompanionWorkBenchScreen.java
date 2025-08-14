@@ -8,11 +8,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import vault_work_station.menu.CompanionWorkBenchMenu;
-import vault_work_station.vault_work_station;
+import vault_work_station.VaultWorkStation;
 
 public class CompanionWorkBenchScreen extends AbstractContainerScreen<CompanionWorkBenchMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(vault_work_station.MOD_ID, "textures/gui/companion_workbench_gui.png");
+            new ResourceLocation(VaultWorkStation.MOD_ID, "textures/gui/companion_workbench_gui.png");
 
     public CompanionWorkBenchScreen(CompanionWorkBenchMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);

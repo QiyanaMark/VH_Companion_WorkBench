@@ -8,11 +8,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import vault_work_station.menu.SmelterMenu;
-import vault_work_station.vault_work_station;
+import vault_work_station.VaultWorkStation;
 
 public class SmelterScreen extends AbstractContainerScreen<SmelterMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(vault_work_station.MOD_ID, "textures/gui/smelter_gui.png");
+            new ResourceLocation(VaultWorkStation.MOD_ID, "textures/gui/smelter_gui.png");
 
     // Arrow configuration (pointing down)
     private static final int ARROW_X = 80;

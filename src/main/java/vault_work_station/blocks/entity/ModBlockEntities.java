@@ -4,13 +4,13 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import vault_work_station.vault_work_station;
+import vault_work_station.VaultWorkStation;
 import vault_work_station.blocks.ModBlocks;
 
 public class ModBlockEntities {
 
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
-            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, vault_work_station.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, VaultWorkStation.MOD_ID);
 
     public static final RegistryObject<BlockEntityType<SmelterBlockEntity>> SMELTER_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("smelter_block_entity",

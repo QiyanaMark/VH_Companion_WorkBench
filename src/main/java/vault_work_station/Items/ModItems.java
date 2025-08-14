@@ -5,14 +5,13 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import vault_work_station.VaultWorkStation;
 import vault_work_station.init.CompanionTab;
-import vault_work_station.vault_work_station;
-
 
 
 public abstract class ModItems {
     public static final DeferredRegister<Item> ITEMS =
-            DeferredRegister.create(ForgeRegistries.ITEMS, vault_work_station.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.ITEMS, VaultWorkStation.MOD_ID);
 
     public static final RegistryObject<Item> COMPANION_ESSENCE = ITEMS.register(
             "companionessence",

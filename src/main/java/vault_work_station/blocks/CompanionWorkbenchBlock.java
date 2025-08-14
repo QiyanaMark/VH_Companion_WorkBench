@@ -39,7 +39,7 @@ public class CompanionWorkbenchBlock extends BaseEntityBlock {
             MenuProvider provider = new MenuProvider() {
                 @Override
                 public TranslatableComponent getDisplayName() {
-                    return new TranslatableComponent("container.vault_work_station.companion_workbench");
+                    return new TranslatableComponent("container.VaultWorkStation.companion_workbench");
                 }
 
                 @Override

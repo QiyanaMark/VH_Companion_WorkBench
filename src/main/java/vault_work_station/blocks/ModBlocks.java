@@ -16,7 +16,7 @@ import vault_work_station.Items.ModItems;
 
 import java.util.function.Supplier;
 
-import static vault_work_station.vault_work_station.MOD_ID;
+import static vault_work_station.VaultWorkStation.MOD_ID;
 
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =

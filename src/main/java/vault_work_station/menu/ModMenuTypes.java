@@ -7,11 +7,11 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import vault_work_station.vault_work_station;
+import vault_work_station.VaultWorkStation;
 
 public class ModMenuTypes {
     public static final DeferredRegister<MenuType<?>> MENUS =
-            DeferredRegister.create(ForgeRegistries.CONTAINERS, vault_work_station.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.CONTAINERS, VaultWorkStation.MOD_ID);
 
     // Smelter menu (unchanged)
     public static final RegistryObject<MenuType<SmelterMenu>> SMELTER_MENU =

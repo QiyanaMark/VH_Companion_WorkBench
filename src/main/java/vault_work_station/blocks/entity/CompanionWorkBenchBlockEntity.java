@@ -15,6 +15,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import vault_work_station.recipe.CompanionWorkBenchRecipe;
+import vault_work_station.recipe.ModRecipeTypes;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

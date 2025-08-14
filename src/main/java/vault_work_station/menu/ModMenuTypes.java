@@ -25,10 +25,10 @@ public class ModMenuTypes {
             ));
 
     // Fixed companion workbench menu
-    public static final RegistryObject<MenuType<CompanionWorkBenchMenu>> COMPANION_WORKBENCH_MENU =
-            MENUS.register("companion_workbench_menu", () -> IForgeMenuType.create(
-                    (windowId, inv, data) -> new CompanionWorkBenchMenu(windowId, inv, data == null ? BlockPos.ZERO : data.readBlockPos())
-            ));
+//    public static final RegistryObject<MenuType<CompanionWorkBenchMenu>> COMPANION_WORKBENCH_MENU =
+//            MENUS.register("companion_workbench_menu", () -> IForgeMenuType.create(
+//                    (windowId, inv, data) -> new CompanionWorkBenchMenu(windowId, inv, data == null ? BlockPos.ZERO : data.readBlockPos())
+//            ));
 
 
     public static void register(IEventBus eventBus) {

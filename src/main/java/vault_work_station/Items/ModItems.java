@@ -14,18 +14,18 @@ public abstract class ModItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, VaultWorkStation.MOD_ID);
 
     public static final RegistryObject<Item> COMPANION_ESSENCE = ITEMS.register(
-            "companionessence",
+            "companion_essence",
             () -> new Item(new Item.Properties().tab(CompanionTab.COMPANION_TAB))
 
     );
 
     public static final RegistryObject<Item> PARTICLE_FRAGMENT = ITEMS.register(
-            "particlefragment",
+            "particle_fragment",
             () -> new Item(new Item.Properties().tab(CompanionTab.COMPANION_TAB))
     );
 
     public static final RegistryObject<Item> RELIC_FRAGMENT = ITEMS.register(
-            "relicfragment",
+            "relic_fragment",
             () -> new Item(new Item.Properties().tab(CompanionTab.COMPANION_TAB))
     );
 

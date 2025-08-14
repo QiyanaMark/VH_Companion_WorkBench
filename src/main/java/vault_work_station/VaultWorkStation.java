@@ -13,7 +13,7 @@ import vault_work_station.blocks.entity.ModBlockEntities;
 
 import vault_work_station.menu.ModMenuTypes;
 import vault_work_station.recipe.ModRecipeTypes;
-import vault_work_station.screen.CompanionWorkBenchScreen;
+//import vault_work_station.screen.CompanionWorkBenchScreen;
 import vault_work_station.screen.SmelterScreen;
 
 @Mod(VaultWorkStation.MOD_ID)
@@ -28,7 +28,7 @@ public class VaultWorkStation {
         ModBlocks.BLOCKS.register(modBus);
         ModBlockEntities.BLOCK_ENTITIES.register(modBus);
         ModMenuTypes.MENUS.register(modBus);
-        ModRecipeTypes.register(modBus);
+//        ModRecipeTypes.register(modBus);
         // Register event listeners
         modBus.addListener(this::commonSetup);  // For common setup (networking, etc.)
         modBus.addListener(this::onClientSetup); // For client-only setup (GUI, rendering)
@@ -46,7 +46,7 @@ public class VaultWorkStation {
         event.enqueueWork(() -> {
             // Register both screen types
             MenuScreens.register(ModMenuTypes.SMELTER_MENU.get(), SmelterScreen::new);
-            MenuScreens.register(ModMenuTypes.COMPANION_WORKBENCH_MENU.get(), CompanionWorkBenchScreen::new);
+//            MenuScreens.register(ModMenuTypes.COMPANION_WORKBENCH_MENU.get(), CompanionWorkBenchScreen::new);
         });
     }
 }

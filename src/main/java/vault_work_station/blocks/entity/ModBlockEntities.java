@@ -17,8 +17,8 @@ public class ModBlockEntities {
                     () -> BlockEntityType.Builder.of(SmelterBlockEntity::new,
                             ModBlocks.SMELTER_BLOCK.get()).build(null));
 
-    public static final RegistryObject<BlockEntityType<CompanionWorkBenchBlockEntity>> COMPANION_WORKBENCH_ENTITY =
-            BLOCK_ENTITIES.register("companion_workbench_entity",
-                    () -> BlockEntityType.Builder.of(CompanionWorkBenchBlockEntity::new,
-                            ModBlocks.COMPANION_WORKBENCH.get()).build(null));
+//    public static final RegistryObject<BlockEntityType<CompanionWorkBenchBlockEntity>> COMPANION_WORKBENCH_ENTITY =
+//            BLOCK_ENTITIES.register("companion_workbench_entity",
+//                    () -> BlockEntityType.Builder.of(CompanionWorkBenchBlockEntity::new,
+//                            ModBlocks.COMPANION_WORKBENCH.get()).build(null));
 }

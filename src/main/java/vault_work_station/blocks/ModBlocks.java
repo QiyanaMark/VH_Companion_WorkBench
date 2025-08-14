@@ -4,19 +4,18 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import vault_work_station.Item.CompanionTab;
-import vault_work_station.vault_work_station;
-import vault_work_station.Item.ModItems;
-import vault_work_station.blocks.entity.custom.SmelterBlock;
+import vault_work_station.init.CompanionTab;
+import vault_work_station.Items.ModItems;
+
 
 import java.util.function.Supplier;
 
-import static net.minecraft.sounds.SoundSource.BLOCKS;
 import static vault_work_station.vault_work_station.MOD_ID;
 
 public class ModBlocks {
@@ -31,9 +30,19 @@ public class ModBlocks {
             CompanionTab.COMPANION_TAB
     );
 
+    public static final RegistryObject<Block> COMPANION_WORKBENCH = registerBlock(
+            "companion_workbench",
+            () -> new CompanionWorkbenchBlock(BlockBehaviour.Properties.of(Material.METAL)
+                    .strength(3.5f)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.METAL)
+                    .noOcclusion()),
+            CompanionTab.COMPANION_TAB
+    );
+
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab) {
         RegistryObject<T> obj = BLOCKS.register(name, block);
-        registerBlockItem(name, obj, tab); // Split item registration
+        registerBlockItem(name, obj, tab);
         return obj;
     }
 

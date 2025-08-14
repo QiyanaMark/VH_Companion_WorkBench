@@ -1,4 +1,4 @@
-package vault_work_station.screen.slots;
+package vault_work_station.menu;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import vault_work_station.blocks.entity.custom.SmelterBlockEntity;
+import vault_work_station.blocks.entity.SmelterBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import vault_work_station.blocks.ModBlocks;

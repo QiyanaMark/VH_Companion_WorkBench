@@ -1,5 +1,4 @@
-package vault_work_station.blocks.entity.custom;
-import net.minecraft.network.chat.Component;
+package vault_work_station.blocks.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -17,13 +16,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import vault_work_station.blocks.entity.ModBlockEntities;
-import vault_work_station.Item.ModItems;
-import vault_work_station.screen.slots.SmelterMenu;
+import vault_work_station.Items.ModItems;
+import vault_work_station.menu.SmelterMenu;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

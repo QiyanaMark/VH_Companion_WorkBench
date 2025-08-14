@@ -1,4 +1,4 @@
-package vault_work_station.blocks.entity.custom;
+package vault_work_station.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.Nullable;
 
 import net.minecraft.world.phys.BlockHitResult;
-import vault_work_station.blocks.entity.ModBlockEntities;
+import vault_work_station.blocks.entity.SmelterBlockEntity;
 
 public class SmelterBlock extends Block implements EntityBlock {
     public SmelterBlock(Properties properties) {

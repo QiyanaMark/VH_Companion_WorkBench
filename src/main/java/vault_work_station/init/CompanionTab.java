@@ -1,7 +1,8 @@
-package vault_work_station.Item;
+package vault_work_station.init;
 
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import vault_work_station.Items.ModItems;
 
 
 public class CompanionTab {

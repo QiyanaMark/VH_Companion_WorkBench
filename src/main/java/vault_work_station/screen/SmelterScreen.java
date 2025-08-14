@@ -7,8 +7,8 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import vault_work_station.menu.SmelterMenu;
 import vault_work_station.vault_work_station;
-import vault_work_station.screen.slots.SmelterMenu;
 
 public class SmelterScreen extends AbstractContainerScreen<SmelterMenu> {
     private static final ResourceLocation TEXTURE =

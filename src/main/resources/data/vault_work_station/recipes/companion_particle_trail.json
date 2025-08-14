@@ -1,0 +1,19 @@
+{
+  "type": "vault_work_station:companion_workbench",
+  "ingredients": [
+    {
+      "item": "vault_work_station:particlefragment",
+      "count": 4
+    }
+  ],
+  "additionalCosts": [
+    {
+      "item": "the_vault:extraordinary_larimar",
+      "count": 1
+    }
+  ],
+  "output": {
+    "item": "the_vault:companion_particle_trail"
+  },
+  "essenceCost": 4
+}

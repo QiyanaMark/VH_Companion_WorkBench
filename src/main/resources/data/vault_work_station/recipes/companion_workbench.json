@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "EFP",
+    "CLC",
+    "CCC"
+  ],
+  "key": {
+    "E": { "item": "vault_work_station:companionessence" },
+    "F": { "item": "vault_work_station:particlefragment" },
+    "P": { "item": "vault_work_station:relicfragment" },
+    "L": { "item": "minecraft:lectern" },
+    "C": { "item": "the_vault:chromatic_steel_ingot" }
+  },
+  "result": {
+    "item": "vault_work_station:companion_workbench",
+    "count": 1
+  }
+}

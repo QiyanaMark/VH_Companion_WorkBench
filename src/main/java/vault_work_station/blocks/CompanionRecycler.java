@@ -79,7 +79,7 @@ public class CompanionRecycler extends Block implements EntityBlock {
 
     @Override
     public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
-        return Block.box(0, 0, 0, 16, 20, 16);
+        return Block.box(-1, 0, -1, 17, 19, 17);
     }
 
     //for facing property

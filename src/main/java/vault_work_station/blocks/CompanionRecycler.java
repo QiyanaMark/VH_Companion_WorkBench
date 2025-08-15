@@ -32,6 +32,7 @@ import vault_work_station.blocks.entity.CompanionRecyclerBlockEntity;
 @SuppressWarnings("deprecation")
 public class CompanionRecycler extends Block implements EntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final VoxelShape SHAPE;
 
     public CompanionRecycler(Properties properties) {
         super(properties);
@@ -78,8 +79,8 @@ public class CompanionRecycler extends Block implements EntityBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
-        return Block.box(-1, 0, -1, 17, 19, 17);
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return SHAPE;
     }
 
     //for facing property
@@ -103,5 +104,9 @@ public class CompanionRecycler extends Block implements EntityBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
+    }
+
+    static {
+        SHAPE = Block.box(-1, 0, -1, 17, 19, 17);
     }
 }

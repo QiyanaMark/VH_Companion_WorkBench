@@ -7,10 +7,10 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import vault_work_station.menu.SmelterMenu;
+import vault_work_station.menu.CompanionRecyclerMenu;
 import vault_work_station.VaultWorkStation;
 
-public class SmelterScreen extends AbstractContainerScreen<SmelterMenu> {
+public class SmelterScreen extends AbstractContainerScreen<CompanionRecyclerMenu> {
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(VaultWorkStation.MOD_ID, "textures/gui/smelter_gui.png");
 
@@ -22,7 +22,7 @@ public class SmelterScreen extends AbstractContainerScreen<SmelterMenu> {
     private static final int ARROW_U = 176;
     private static final int ARROW_V = 0;
 
-    public SmelterScreen(SmelterMenu menu, Inventory inv, Component title) {
+    public SmelterScreen(CompanionRecyclerMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
         this.imageWidth = 176;
         this.imageHeight = 166;

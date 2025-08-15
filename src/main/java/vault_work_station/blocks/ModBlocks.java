@@ -4,7 +4,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.DeferredRegister;
@@ -22,9 +21,9 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
 
-    public static final RegistryObject<Block> SMELTER_BLOCK = registerBlock(
-            "smelter_block",
-            () -> new SmelterBlock(BlockBehaviour.Properties.of(Material.METAL)
+    public static final RegistryObject<Block> COMPANION_RECYCLER_BLOCK = registerBlock(
+            "companion_recycler_block",
+            () -> new CompanionRecycler(BlockBehaviour.Properties.of(Material.METAL)
                     .strength(3.5f)
                     .noOcclusion()),
             CompanionTab.COMPANION_TAB

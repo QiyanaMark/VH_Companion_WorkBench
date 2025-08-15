@@ -2,9 +2,9 @@ package vault_work_station.blocks.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
@@ -18,12 +18,13 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.common.capabilities.Capability;
 import vault_work_station.Items.ModItems;
-import vault_work_station.menu.SmelterMenu;
+import vault_work_station.VaultWorkStation;
+import vault_work_station.menu.CompanionRecyclerMenu;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class SmelterBlockEntity extends BlockEntity implements MenuProvider {
+public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuProvider {
     // 0 = input, 1 = output
     private final ItemStackHandler itemHandler = new ItemStackHandler(2) {
         @Override
@@ -31,16 +32,16 @@ public class SmelterBlockEntity extends BlockEntity implements MenuProvider {
             setChanged();
         }
     };
-    private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
+    private LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
 
     private int smeltTime = 0;
     private static final int SMELT_TIME_TOTAL = 200; // ticks (10s)
 
-    public SmelterBlockEntity(BlockPos pos, BlockState state) {
+    public CompanionRecyclerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.SMELTER_BLOCK_ENTITY.get(), pos, state);
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, SmelterBlockEntity be) {
+    public static void tick(Level level, BlockPos pos, BlockState state, CompanionRecyclerBlockEntity be) {
         if (level.isClientSide) return;
 
         // Get the closest player within 5 blocks
@@ -95,7 +96,7 @@ public class SmelterBlockEntity extends BlockEntity implements MenuProvider {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!level.isClientSide) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof SmelterBlockEntity) {
+            if (blockEntity instanceof CompanionRecyclerBlockEntity) {
                 // Open the GUI
                 player.openMenu((MenuProvider) blockEntity);
                 return InteractionResult.CONSUME;
@@ -124,10 +125,23 @@ public class SmelterBlockEntity extends BlockEntity implements MenuProvider {
 
     // NBT save/load
     @Override
+    public void onLoad() {
+        super.onLoad();
+        handler = LazyOptional.of(() -> itemHandler);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        handler.invalidate();
+    }
+
+
+    @Override
     protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
         tag.put("inv", itemHandler.serializeNBT());
         tag.putInt("smeltTime", smeltTime);
+        super.saveAdditional(tag);
     }
 
     @Override
@@ -148,19 +162,28 @@ public class SmelterBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     // MenuProvider methods
-    public net.minecraft.network.chat.Component getDisplayName() {
-        return new net.minecraft.network.chat.TranslatableComponent("Companion Reycler");
+    public Component getDisplayName() {
+        return new TranslatableComponent("menu.companion_recycler");
     }
 
 
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int id, net.minecraft.world.entity.player.Inventory inv, Player player) {
-        return new SmelterMenu(id, inv, this.getBlockPos());
+        return new CompanionRecyclerMenu(id, inv, this.getBlockPos());
     }
 
     // Expose item handler to menu
     public IItemHandler getItemHandler() {
         return itemHandler;
+    }
+
+    public void drops(Level level, BlockPos pos) {
+        SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
+        for (int i=0; i < itemHandler.getSlots(); i++) {
+            inventory.setItem(i, itemHandler.getStackInSlot(i));
+        }
+
+        Containers.dropContents(level, pos, inventory);
     }
 }

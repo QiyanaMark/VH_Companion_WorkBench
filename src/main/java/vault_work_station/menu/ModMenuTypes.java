@@ -14,13 +14,13 @@ public class ModMenuTypes {
             DeferredRegister.create(ForgeRegistries.CONTAINERS, VaultWorkStation.MOD_ID);
 
     // Smelter menu (unchanged)
-    public static final RegistryObject<MenuType<SmelterMenu>> SMELTER_MENU =
+    public static final RegistryObject<MenuType<CompanionRecyclerMenu>> SMELTER_MENU =
             MENUS.register("smelter_menu", () -> IForgeMenuType.create(
                     (windowId, inv, data) -> {
                         if (data == null) {
-                            return new SmelterMenu(windowId, inv, BlockPos.ZERO);
+                            return new CompanionRecyclerMenu(windowId, inv, BlockPos.ZERO);
                         }
-                        return new SmelterMenu(windowId, inv, data.readBlockPos());
+                        return new CompanionRecyclerMenu(windowId, inv, data.readBlockPos());
                     }
             ));
 

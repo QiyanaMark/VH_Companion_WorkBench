@@ -50,7 +50,7 @@ public class JEIPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(
-                new ItemStack(ModBlocks.SMELTER_BLOCK.get()),
+                new ItemStack(ModBlocks.COMPANION_RECYCLER_BLOCK.get()),
                 VanillaRecipeCategoryUid.CRAFTING
         );
 

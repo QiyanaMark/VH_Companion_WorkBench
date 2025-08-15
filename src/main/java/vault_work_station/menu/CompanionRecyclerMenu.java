@@ -10,24 +10,24 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import vault_work_station.blocks.entity.SmelterBlockEntity;
+import vault_work_station.blocks.entity.CompanionRecyclerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import vault_work_station.blocks.ModBlocks;
 
-public class SmelterMenu extends AbstractContainerMenu {
+public class CompanionRecyclerMenu extends AbstractContainerMenu {
     private final BlockPos pos;
     private final IItemHandler blockHandler;
     private final Inventory playerInv; // Store player inventory reference
 
     // Server-side constructor
-    public SmelterMenu(int id, Inventory playerInv, BlockPos pos) {
+    public CompanionRecyclerMenu(int id, Inventory playerInv, BlockPos pos) {
         super(ModMenuTypes.SMELTER_MENU.get(), id);
         this.pos = pos;
         this.playerInv = playerInv; // Store the player inventory
 
         BlockEntity be = playerInv.player.level.getBlockEntity(pos);
-        if (be instanceof SmelterBlockEntity sb) {
+        if (be instanceof CompanionRecyclerBlockEntity sb) {
             this.blockHandler = sb.getItemHandler();
         } else {
             this.blockHandler = new ItemStackHandler(2);
@@ -53,7 +53,7 @@ public class SmelterMenu extends AbstractContainerMenu {
     }
 
     // Client-side constructor
-    public SmelterMenu(int id, Inventory playerInv, FriendlyByteBuf data) {
+    public CompanionRecyclerMenu(int id, Inventory playerInv, FriendlyByteBuf data) {
         this(id, playerInv, data != null ? data.readBlockPos() : BlockPos.ZERO);
     }
 
@@ -63,7 +63,7 @@ public class SmelterMenu extends AbstractContainerMenu {
         if (pos.equals(BlockPos.ZERO)) {
             return false; // Invalid position
         }
-        return stillValid(ContainerLevelAccess.create(player.level, pos), player, ModBlocks.SMELTER_BLOCK.get());
+        return stillValid(ContainerLevelAccess.create(player.level, pos), player, ModBlocks.COMPANION_RECYCLER_BLOCK.get());
     }
 
     @Override
@@ -107,7 +107,7 @@ public class SmelterMenu extends AbstractContainerMenu {
     public int getSmeltProgress() {
         if (playerInv.player != null && !playerInv.player.level.isClientSide) {
             BlockEntity be = playerInv.player.level.getBlockEntity(pos);
-            if (be instanceof SmelterBlockEntity smelter) {
+            if (be instanceof CompanionRecyclerBlockEntity smelter) {
                 return smelter.getSmeltProgressScaled(24);
             }
         }

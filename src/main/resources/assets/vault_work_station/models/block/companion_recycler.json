@@ -3,8 +3,8 @@
   "credit": "Made with Blockbench",
   "texture_size": [128, 128],
   "textures": {
-    "1": "smelter_block",
-    "particle": "smelter_block"
+    "1": "vault_work_station:block/companion_recycler",
+    "particle": "vault_work_station:block/companion_recycler"
   },
   "elements": [
     {

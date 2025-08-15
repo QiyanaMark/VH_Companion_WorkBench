@@ -22,7 +22,7 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
 
     public static final RegistryObject<Block> COMPANION_RECYCLER_BLOCK = registerBlock(
-            "companion_recycler_block",
+            "companion_recycler",
             () -> new CompanionRecycler(BlockBehaviour.Properties.of(Material.METAL)
                     .strength(3.5f)
                     .noOcclusion()),

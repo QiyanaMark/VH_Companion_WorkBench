@@ -24,8 +24,8 @@ public class CompanionRecyclerScreen extends AbstractContainerScreen<CompanionRe
 
     public CompanionRecyclerScreen(CompanionRecyclerMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
-        this.imageWidth = 176;
-        this.imageHeight = 166;
+        this.imageWidth = 173;
+        this.imageHeight = 163;
         this.inventoryLabelY = this.imageHeight - 94;
     }
 

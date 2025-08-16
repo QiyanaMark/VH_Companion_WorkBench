@@ -113,25 +113,6 @@ public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuPro
         return  MiscUtilsAdditions.canFullyMergeIntoSlot(this.itemHandler, 3, result.getCompanionScrapOutput());
     }
 
-    private static boolean isCompanionRetired(ItemStack stack) {
-        if (!(stack.getItem() instanceof CompanionItem)) {
-            return false;
-        }
-        UUID companionId = CompanionItem.getCompanionUUID(stack);
-        if (companionId == null) {
-            return false;
-        }
-        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        if (server == null) {
-            return false;
-        }
-        PlayerCompanionData.CompanionData data = PlayerCompanionData.get(server).get(companionId).orElse(null);
-        if (data == null) {
-            return false;
-        }
-        int companionHealth = data.getHearts();
-        return companionHealth > 0;
-    }
 
 
     private void doSmelt() {
@@ -152,10 +133,13 @@ public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuPro
             }
         }
         if(result != null) {
-            itemHandler.insertItem(1, result.getRetiredCompanionOutput(),true);
-            itemHandler.insertItem(2, result.getCompanionEssenceOutput(), true);
-            itemHandler.insertItem(3, result.getCompanionScrapOutput(), true);
-            in.shrink(1);
+//            itemHandler.insertItem(1, result.getRetiredCompanionOutput(),false);
+//            itemHandler.setStackInSlot(2, result.getCompanionEssenceOutput(), false);
+//            itemHandler.setStackInSlot(3, result.getCompanionScrapOutput());
+            MiscUtilsAdditions.insertIntoSlot(itemHandler, 1, result.getRetiredCompanionOutput());
+            MiscUtilsAdditions.insertIntoSlot(itemHandler, 2, result.getCompanionEssenceOutput());
+            MiscUtilsAdditions.insertIntoSlot(itemHandler, 3, result.getCompanionScrapOutput());
+            itemHandler.getStackInSlot(0).shrink(1);
             ModNetwork.CHANNEL.send(PacketDistributor.ALL.noArg(), new RecyclerParticleMessage(pos));
         }
         // Original smelting logic
@@ -251,11 +235,31 @@ public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuPro
             if (slot == 0) {
                 Item inputItem = stack.getItem();
                 if (inputItem instanceof CompanionItem) {
-                    return isCompanionRetired(stack);
+                    return !isCompanionRetired(stack);
                 }
                 return inputItem instanceof CompanionRelicItem || inputItem instanceof CompanionParticleTrailItem;
             }
             return false;
+        }
+
+        private static boolean isCompanionRetired(ItemStack stack) {
+            if (!(stack.getItem() instanceof CompanionItem)) {
+                return true;
+            }
+            UUID companionId = CompanionItem.getCompanionUUID(stack);
+            if (companionId == null) {
+                return true;
+            }
+            MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+            if (server == null) {
+                return true;
+            }
+            PlayerCompanionData.CompanionData data = PlayerCompanionData.get(server).get(companionId).orElse(null);
+            if (data == null) {
+                return true;
+            }
+            int companionHealth = data.getHearts();
+            return companionHealth <= 0;
         }
 
         @Override

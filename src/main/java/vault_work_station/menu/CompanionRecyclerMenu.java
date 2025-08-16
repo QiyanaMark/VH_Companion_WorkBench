@@ -8,8 +8,9 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
+import org.jetbrains.annotations.NotNull;
+import org.openjdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import vault_work_station.blocks.entity.CompanionRecyclerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -30,25 +31,27 @@ public class CompanionRecyclerMenu extends AbstractContainerMenu {
         if (be instanceof CompanionRecyclerBlockEntity sb) {
             this.blockHandler = sb.getItemHandler();
         } else {
-            this.blockHandler = new ItemStackHandler(2);
+            throw new ValueException("Not a Companion recycler at %s".formatted(be.getBlockPos()));
         }
 
         // Block slots - VERTICAL LAYOUT
-        this.addSlot(new SlotItemHandler(blockHandler, 0, 80, 11)); // Input slot (top center)
-        this.addSlot(new ResultSlot(blockHandler, 1, 80, 59)); // Output slot (bottom center)
+        this.addSlot(new SlotItemHandler(blockHandler, 0, 79, 17)); // Input slot (top center)
+        this.addSlot(new ResultSlot(blockHandler, 1, 55, 54)); // Output slot for retired companion (bottom left)
+        this.addSlot(new ResultSlot(blockHandler, 2, 79, 54)); // Output slot for companion essence (bottom center)
+        this.addSlot(new ResultSlot(blockHandler, 3, 103, 54)); // Output slot for companion scrap (bottom right)
 
         // Player inventory
         int startX = 8;
         int startY = 84;
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 9; ++col) {
-                this.addSlot(new Slot(playerInv, col + row * 9 + 9, startX + col * 18, startY + row * 18));
+                this.addSlot(new Slot(playerInv, col + row * 9 + 9, startX + col * 18 - 1, startY + row * 18 - 1));
             }
         }
 
         // Player hotbar
         for (int hotbar = 0; hotbar < 9; ++hotbar) {
-            this.addSlot(new Slot(playerInv, hotbar, startX + hotbar * 18, startY + 58));
+            this.addSlot(new Slot(playerInv, hotbar, startX + hotbar * 18 - 1, startY + 57));
         }
     }
 
@@ -59,23 +62,24 @@ public class CompanionRecyclerMenu extends AbstractContainerMenu {
 
     // Update stillValid to handle null/zero positions
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(@NotNull Player player) {
         if (pos.equals(BlockPos.ZERO)) {
             return false; // Invalid position
         }
         return stillValid(ContainerLevelAccess.create(player.level, pos), player, ModBlocks.COMPANION_RECYCLER_BLOCK.get());
     }
 
+    @NotNull
     @Override
-    public ItemStack quickMoveStack(Player player, int index) {
+    public ItemStack quickMoveStack(@NotNull Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
 
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
 
-            final int containerSize = 2;
+            final int containerSize = blockHandler.getSlots();
             final int inventorySize = 36;
 
             if (index < containerSize) {
@@ -105,7 +109,7 @@ public class CompanionRecyclerMenu extends AbstractContainerMenu {
     }
 
     public int getSmeltProgress() {
-        if (playerInv.player != null && !playerInv.player.level.isClientSide) {
+        if (!playerInv.player.level.isClientSide) {
             BlockEntity be = playerInv.player.level.getBlockEntity(pos);
             if (be instanceof CompanionRecyclerBlockEntity smelter) {
                 return smelter.getSmeltProgressScaled(24);
@@ -120,7 +124,7 @@ public class CompanionRecyclerMenu extends AbstractContainerMenu {
         }
 
         @Override
-        public boolean mayPlace(ItemStack stack) {
+        public boolean mayPlace(@NotNull ItemStack stack) {
             return false;
         }
     }

@@ -5,16 +5,12 @@ import iskallia.vault.config.Config;
 import iskallia.vault.item.CompanionItem;
 import iskallia.vault.item.CompanionParticleTrailItem;
 import iskallia.vault.item.CompanionRelicItem;
-import iskallia.vault.world.data.PlayerCompanionData;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.server.ServerLifecycleHooks;
 import vault_work_station.Items.ModItems;
 import vault_work_station.VaultWorkStation;
 
 import java.io.File;
-import java.util.UUID;
 
 public class CompanionRecycleConfig extends Config {
     @Expose
@@ -96,29 +92,22 @@ public class CompanionRecycleConfig extends Config {
             }
             ItemStack companionCopy = itemStack.copy();
             CompanionItem.setCompanionHearts(companionCopy, 0);
+            CompanionItem.clearAllRelics(companionCopy);
             return companionCopy;
         }
 
         public ItemStack generateCompanionScrapOutput(ItemStack itemStack, int relicMultiplier, int particleTrailMultiplier) {
             Item returningItem = ModItems.COMPANION_SCRAP.get();
             if (itemStack.getItem() instanceof CompanionItem) {
-                UUID companionId = CompanionItem.getCompanionUUID(itemStack);
-                if (companionId != null) {
-                    MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-                    if (server != null) {
-                        PlayerCompanionData.CompanionData data = PlayerCompanionData.get(server).get(companionId).orElse(null);
-                        if (data != null) {
-                            int relics = data.getAllRelicMap().size();
-                            int particleTrails = data.getAllCosmeticTrailTypes().size();
-
-                            return new ItemStack(returningItem, relics * relicMultiplier + particleTrails * particleTrailMultiplier);
-                        }
-                    }
-
-
-                }
+                int relics = CompanionItem.getAllRelics(itemStack).size();
+//                int particleTrails = CompanionItem.getAllRelics(itemStack).size();
+//                return new ItemStack(returningItem, relics * relicMultiplier + particleTrails * particleTrailMultiplier);
+                return new ItemStack(returningItem, relics * relicMultiplier);
 
             }
+
+
+
             if (itemStack.getItem() instanceof CompanionRelicItem) {
                 return new ItemStack(returningItem, itemStack.getCount() * relicMultiplier);
             }

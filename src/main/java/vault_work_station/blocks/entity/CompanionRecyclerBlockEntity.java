@@ -5,12 +5,10 @@ import iskallia.vault.item.CompanionItem;
 import iskallia.vault.item.CompanionParticleTrailItem;
 import iskallia.vault.item.CompanionRelicItem;
 import iskallia.vault.network.message.RecyclerParticleMessage;
-import iskallia.vault.world.data.PlayerCompanionData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -28,7 +26,6 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.server.ServerLifecycleHooks;
 import vault_work_station.config.CompanionRecycleConfig;
 import vault_work_station.config.ModConfigs;
 import vault_work_station.menu.CompanionRecyclerMenu;
@@ -36,7 +33,6 @@ import vault_work_station.utils.MiscUtilsAdditions;
 
 import javax.annotation.Nullable;
 import java.util.Random;
-import java.util.UUID;
 
 public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuProvider {
     // 0 = input, 1,2,3 = output
@@ -246,19 +242,7 @@ public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuPro
             if (!(stack.getItem() instanceof CompanionItem)) {
                 return true;
             }
-            UUID companionId = CompanionItem.getCompanionUUID(stack);
-            if (companionId == null) {
-                return true;
-            }
-            MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-            if (server == null) {
-                return true;
-            }
-            PlayerCompanionData.CompanionData data = PlayerCompanionData.get(server).get(companionId).orElse(null);
-            if (data == null) {
-                return true;
-            }
-            int companionHealth = data.getHearts();
+            int companionHealth = CompanionItem.getCompanionHearts(stack);
             return companionHealth <= 0;
         }
 

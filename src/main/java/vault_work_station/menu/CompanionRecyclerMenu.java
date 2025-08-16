@@ -22,7 +22,7 @@ public class CompanionRecyclerMenu extends AbstractContainerMenu {
 
     // Server-side constructor
     public CompanionRecyclerMenu(int id, Inventory playerInv, BlockPos pos) {
-        super(ModMenuTypes.SMELTER_MENU.get(), id);
+        super(ModMenuTypes.COMPANION_RECYCLER_MENU.get(), id);
         this.pos = pos;
         this.playerInv = playerInv; // Store the player inventory
 

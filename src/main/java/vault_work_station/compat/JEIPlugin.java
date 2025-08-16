@@ -9,10 +9,12 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.TranslatableComponent;
+import org.jetbrains.annotations.NotNull;
 import vault_work_station.VaultWorkStation;
 import vault_work_station.Items.ModItems;
 import vault_work_station.blocks.ModBlocks;
 
+@SuppressWarnings("unused")
 @JeiPlugin
 public class JEIPlugin implements IModPlugin {
 
@@ -20,7 +22,7 @@ public class JEIPlugin implements IModPlugin {
             new ResourceLocation(VaultWorkStation.MOD_ID, "jei_plugin");
 
     @Override
-    public ResourceLocation getPluginUid() {
+    public @NotNull ResourceLocation getPluginUid() {
         return PLUGIN_ID;
     }
 
@@ -28,12 +30,7 @@ public class JEIPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration registration) {
         // Existing ingredient info
         registration.addIngredientInfo(
-                new ItemStack(ModItems.RELIC_FRAGMENT.get()),
-                VanillaTypes.ITEM_STACK,
-                new TranslatableComponent("jei.vault_work_station.relic_fragment.desc")
-        );
-        registration.addIngredientInfo(
-                new ItemStack(ModItems.PARTICLE_FRAGMENT.get()),
+                new ItemStack(ModItems.COMPANION_SCRAP.get()),
                 VanillaTypes.ITEM_STACK,
                 new TranslatableComponent("jei.vault_work_station.particle_fragment.desc")
         );

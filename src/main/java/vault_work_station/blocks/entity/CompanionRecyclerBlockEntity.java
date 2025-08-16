@@ -1,126 +1,177 @@
 package vault_work_station.blocks.entity;
 
+import iskallia.vault.init.ModNetwork;
+import iskallia.vault.item.CompanionItem;
+import iskallia.vault.item.CompanionParticleTrailItem;
+import iskallia.vault.item.CompanionRelicItem;
+import iskallia.vault.network.message.RecyclerParticleMessage;
+import iskallia.vault.world.data.PlayerCompanionData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.common.capabilities.Capability;
-import vault_work_station.Items.ModItems;
-import vault_work_station.VaultWorkStation;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.server.ServerLifecycleHooks;
+import vault_work_station.config.CompanionRecycleConfig;
+import vault_work_station.config.ModConfigs;
 import vault_work_station.menu.CompanionRecyclerMenu;
+import vault_work_station.utils.MiscUtilsAdditions;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Random;
+import java.util.UUID;
 
 public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuProvider {
-    // 0 = input, 1 = output
-    private final ItemStackHandler itemHandler = new ItemStackHandler(2) {
-        @Override
-        protected void onContentsChanged(int slot) {
-            setChanged();
-        }
-    };
+    // 0 = input, 1,2,3 = output
+    private final CompanionRecyclerInventoryHandler itemHandler = new CompanionRecyclerInventoryHandler(4);
     private LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
 
     private int smeltTime = 0;
-    private static final int SMELT_TIME_TOTAL = 200; // ticks (10s)
+//    private static final int SMELT_TIME_TOTAL = 200; // ticks (10s)
 
     public CompanionRecyclerBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.SMELTER_BLOCK_ENTITY.get(), pos, state);
+        super(ModBlockEntities.COMPANION_RECYCLER_BLOCK_ENTITY.get(), pos, state);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, CompanionRecyclerBlockEntity be) {
         if (level.isClientSide) return;
-
         // Get the closest player within 5 blocks
-        Player player = level.getNearestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 5, null);
-
-        ItemStack input = be.itemHandler.getStackInSlot(0);
-        ItemStack output = be.itemHandler.getStackInSlot(1);
-
-        if (be.canSmelt(input, output)) {
+        if (!be.canSmelt()) {
+            be.resetProcess(level);
+        }
+        else {
             be.smeltTime++;
-            if (be.smeltTime >= SMELT_TIME_TOTAL) {
-                be.doSmelt(player); // Pass the player here
+            if (be.smeltTime >= ModConfigs.COMPANION_RECYCLE.getSmeltingTickTime()) {
+
+                be.doSmelt(); // Pass the player here
                 be.smeltTime = 0;
             }
             be.setChanged();
-        } else {
-            if (be.smeltTime > 0) be.smeltTime = 0;
+            if (level instanceof ServerLevel serverLevel) {
+                serverLevel.sendBlockUpdated(pos, state, state, 3);
+            }
+        }
+
+    }
+
+    private void resetProcess(@Nullable Level level) {
+        this.startProcess(level);
+    }
+
+    private void startProcess(@Nullable Level level) {
+        int prevTick = this.smeltTime;
+        this.smeltTime = 0;
+        this.setChanged();
+        if (prevTick != this.smeltTime && level instanceof ServerLevel serverLevel) {
+            serverLevel.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
         }
     }
 
-    private boolean canSmelt(ItemStack in, ItemStack out) {
-        if (in.isEmpty()) return false;
-        ItemStack result = getResult(in);
-        if (result.isEmpty()) return false;
-        if (out.isEmpty()) return true;
-        if (!out.sameItem(result)) return false;
-        return out.getCount() + result.getCount() <= out.getMaxStackSize();
+    private void triggerItemChange() {
+        ItemStack input = this.itemHandler.getStackInSlot(0);
+        if (!this.isValidInput(input)) {
+            this.resetProcess(null);
+        }
+        else {
+            this.startProcess(null);
+        }
     }
 
-    private void doSmelt(@Nullable Player player) {  // Add @Nullable annotation
-        ItemStack in = itemHandler.getStackInSlot(0);
-        ItemStack result = getResult(in);
-        ItemStack out = itemHandler.getStackInSlot(1);
+    private boolean isValidInput(ItemStack input) {
+        Item inputItem = input.getItem();
+        return inputItem instanceof CompanionItem || inputItem instanceof CompanionRelicItem || inputItem instanceof CompanionParticleTrailItem;
+    }
+
+    private boolean canSmelt() {
+        CompanionRecycleConfig.RecycleOutput result = getResults(this.itemHandler.getStackInSlot(0));
+        if(result == null) {
+            return false;
+        }
+        if(!MiscUtilsAdditions.canFullyMergeIntoSlot(this.itemHandler, 1, result.getRetiredCompanionOutput())) {
+            return false;
+        }
+        if(!MiscUtilsAdditions.canFullyMergeIntoSlot(this.itemHandler, 2, result.getCompanionEssenceOutput())) {
+            return false;
+        }
+        return  MiscUtilsAdditions.canFullyMergeIntoSlot(this.itemHandler, 3, result.getCompanionScrapOutput());
+    }
+
+    private static boolean isCompanionRetired(ItemStack stack) {
+        if (!(stack.getItem() instanceof CompanionItem)) {
+            return false;
+        }
+        UUID companionId = CompanionItem.getCompanionUUID(stack);
+        if (companionId == null) {
+            return false;
+        }
+        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+        if (server == null) {
+            return false;
+        }
+        PlayerCompanionData.CompanionData data = PlayerCompanionData.get(server).get(companionId).orElse(null);
+        if (data == null) {
+            return false;
+        }
+        int companionHealth = data.getHearts();
+        return companionHealth > 0;
+    }
+
+
+    private void doSmelt() {
+        ItemStack in = itemHandler.getStackInSlot(0).copy();
+        CompanionRecycleConfig.RecycleOutput result = getResults(in);
 
         // Delete companion UUID from player data if present
-        if (player != null && in.hasTag()) {
-            CompoundTag tag = in.getTag();
-            if (tag != null && tag.hasUUID("uuid")) {
-                player.getPersistentData().remove("vault_companions." + tag.getUUID("uuid"));
+        BlockPos pos = this.getBlockPos();
+        if(this.level != null) {
+            this.level.playSound(null, pos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 0.5F + (new Random()).nextFloat() * 0.25F, 0.75F + (new Random()).nextFloat() * 0.25F);
+            if (!ModConfigs.COMPANION_RECYCLE.giveRetiredCompanion() && in.hasTag()) {
+                // Player fetching logic needs to be changed
+                Player player = this.level.getNearestPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 5, null);
+                CompoundTag tag = in.getTag();
+                if (tag != null && tag.hasUUID("uuid") && player != null) {
+                    player.getPersistentData().remove("vault_companions." + tag.getUUID("uuid"));
+                }
             }
         }
-
+        if(result != null) {
+            itemHandler.insertItem(1, result.getRetiredCompanionOutput(),true);
+            itemHandler.insertItem(2, result.getCompanionEssenceOutput(), true);
+            itemHandler.insertItem(3, result.getCompanionScrapOutput(), true);
+            in.shrink(1);
+            ModNetwork.CHANNEL.send(PacketDistributor.ALL.noArg(), new RecyclerParticleMessage(pos));
+        }
         // Original smelting logic
-        if (out.isEmpty()) {
-            itemHandler.setStackInSlot(1, result.copy());
-        } else if (out.sameItem(result)) {
-            out.grow(result.getCount());
-        }
-        in.shrink(1);
-    }
-
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!level.isClientSide) {
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof CompanionRecyclerBlockEntity) {
-                // Open the GUI
-                player.openMenu((MenuProvider) blockEntity);
-                return InteractionResult.CONSUME;
-            }
-        }
-        return InteractionResult.SUCCESS;
     }
 
     // Hardcoded allowed inputs -> outputs
-    private ItemStack getResult(ItemStack stack) {
+    @Nullable
+    private CompanionRecycleConfig.RecycleOutput getResults(ItemStack stack) {
         // Vault Hunters inputs → Your mod's outputs
-        if (stack.getItem().getRegistryName().toString().equals("the_vault:companion")) {
-            return new ItemStack(ModItems.COMPANION_ESSENCE.get());
+        if (stack.isEmpty()) {
+            return null;
         }
-        else if (stack.getItem().getRegistryName().toString().equals("the_vault:companion_particle_trail")) {
-            return new ItemStack(ModItems.PARTICLE_FRAGMENT.get());
-        }
-        else if (stack.getItem().getRegistryName().toString().equals("the_vault:companion_relic")) {
-            return new ItemStack(ModItems.RELIC_FRAGMENT.get());
-        }
-        return ItemStack.EMPTY;
+        return new CompanionRecycleConfig.RecycleOutput(stack, ModConfigs.COMPANION_RECYCLE);
     }
     public int getSmeltProgressScaled(int scale) {
-        return this.smeltTime * scale / SMELT_TIME_TOTAL;
+        return this.smeltTime * scale / ModConfigs.COMPANION_RECYCLE.getSmeltingTickTime();
     }
 
     // NBT save/load
@@ -152,9 +203,8 @@ public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuPro
     }
 
     // Capability (for hoppers, menus)
-    @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable net.minecraft.core.Direction side) {
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable net.minecraft.core.Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return handler.cast();
         }
@@ -186,4 +236,33 @@ public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuPro
 
         Containers.dropContents(level, pos, inventory);
     }
+
+    public class CompanionRecyclerInventoryHandler extends ItemStackHandler {
+
+        public CompanionRecyclerInventoryHandler(int size) {
+            super(size);
+        }
+
+        @Override
+        public boolean isItemValid(int slot, ItemStack stack) {
+            if(stack.isEmpty()) {
+                return false;
+            }
+            if (slot == 0) {
+                Item inputItem = stack.getItem();
+                if (inputItem instanceof CompanionItem) {
+                    return isCompanionRetired(stack);
+                }
+                return inputItem instanceof CompanionRelicItem || inputItem instanceof CompanionParticleTrailItem;
+            }
+            return false;
+        }
+
+        @Override
+        protected void onContentsChanged(int slot) {
+            CompanionRecyclerBlockEntity.this.setChanged();
+            CompanionRecyclerBlockEntity.this.triggerItemChange();
+        }
+    }
+
 }

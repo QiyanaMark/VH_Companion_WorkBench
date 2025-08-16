@@ -19,15 +19,11 @@ public abstract class ModItems {
 
     );
 
-    public static final RegistryObject<Item> PARTICLE_FRAGMENT = ITEMS.register(
-            "particle_fragment",
+    public static final RegistryObject<Item> COMPANION_SCRAP = ITEMS.register(
+            "companion_scrap",
             () -> new Item(new Item.Properties().tab(CompanionTab.COMPANION_TAB))
     );
 
-    public static final RegistryObject<Item> RELIC_FRAGMENT = ITEMS.register(
-            "relic_fragment",
-            () -> new Item(new Item.Properties().tab(CompanionTab.COMPANION_TAB))
-    );
 
 
     public static void register(IEventBus eventBus) {

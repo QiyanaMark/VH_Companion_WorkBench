@@ -58,7 +58,7 @@ public class CompanionRecycler extends Block implements EntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return BlockHelper.getTicker(type, ModBlockEntities.SMELTER_BLOCK_ENTITY.get(), CompanionRecyclerBlockEntity::tick);
+        return BlockHelper.getTicker(type, ModBlockEntities.COMPANION_RECYCLER_BLOCK_ENTITY.get(), CompanionRecyclerBlockEntity::tick);
     }
 
     @Override

@@ -12,7 +12,7 @@ public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, VaultWorkStation.MOD_ID);
 
-    public static final RegistryObject<BlockEntityType<CompanionRecyclerBlockEntity>> SMELTER_BLOCK_ENTITY =
+    public static final RegistryObject<BlockEntityType<CompanionRecyclerBlockEntity>> COMPANION_RECYCLER_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("smelter_block_entity",
                     () -> BlockEntityType.Builder.of(CompanionRecyclerBlockEntity::new,
                             ModBlocks.COMPANION_RECYCLER_BLOCK.get()).build(null));

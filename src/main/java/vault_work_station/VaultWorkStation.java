@@ -12,9 +12,8 @@ import vault_work_station.blocks.ModBlocks;
 import vault_work_station.blocks.entity.ModBlockEntities;
 
 import vault_work_station.menu.ModMenuTypes;
-import vault_work_station.recipe.ModRecipeTypes;
 //import vault_work_station.screen.CompanionWorkBenchScreen;
-import vault_work_station.screen.SmelterScreen;
+import vault_work_station.screen.CompanionRecyclerScreen;
 
 @Mod(VaultWorkStation.MOD_ID)
 public class VaultWorkStation {
@@ -45,7 +44,7 @@ public class VaultWorkStation {
     private void onClientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             // Register both screen types
-            MenuScreens.register(ModMenuTypes.SMELTER_MENU.get(), SmelterScreen::new);
+            MenuScreens.register(ModMenuTypes.COMPANION_RECYCLER_MENU.get(), CompanionRecyclerScreen::new);
 //            MenuScreens.register(ModMenuTypes.COMPANION_WORKBENCH_MENU.get(), CompanionWorkBenchScreen::new);
         });
     }

@@ -14,8 +14,8 @@ public class ModMenuTypes {
             DeferredRegister.create(ForgeRegistries.CONTAINERS, VaultWorkStation.MOD_ID);
 
     // Smelter menu (unchanged)
-    public static final RegistryObject<MenuType<CompanionRecyclerMenu>> SMELTER_MENU =
-            MENUS.register("smelter_menu", () -> IForgeMenuType.create(
+    public static final RegistryObject<MenuType<CompanionRecyclerMenu>> COMPANION_RECYCLER_MENU =
+            MENUS.register("companion_recycler_menu", () -> IForgeMenuType.create(
                     (windowId, inv, data) -> {
                         if (data == null) {
                             return new CompanionRecyclerMenu(windowId, inv, BlockPos.ZERO);

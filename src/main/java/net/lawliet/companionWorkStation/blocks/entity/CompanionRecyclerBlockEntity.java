@@ -39,7 +39,7 @@ public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuPro
     // 0 = input, 1,2,3 = output
     private final CompanionRecyclerInventoryHandler itemHandler = new CompanionRecyclerInventoryHandler(4);
     private LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
-
+    private static final int[] SLOTS_FOR_DOWN = new int[]{1,2,3};
     private int smeltTime = 0;
 
     // ContainerData for syncing with client
@@ -235,6 +235,72 @@ public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuPro
 
         Containers.dropContents(level, pos, inventory);
     }
+//
+//    @Override
+//    public int[] getSlotsForFace(Direction direction) {
+//        return direction == Direction.DOWN ? SLOTS_FOR_DOWN : IntStream.range(0, this.itemHandler.getSlots()).toArray();
+//    }
+//
+//    @Override
+//    public boolean canPlaceItemThroughFace(int index, ItemStack stack, @Nullable Direction direction) {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
+//        return direction != Direction.DOWN;
+//    }
+//
+//    @Override
+//    public int getContainerSize() {
+//        return itemHandler.getSlots();
+//    }
+//
+//    @Override
+//    public boolean isEmpty() {
+//        for(int i=0;i<getContainerSize();i++) {
+//            if (itemHandler.getStackInSlot(i).isEmpty()) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
+//    @Override
+//    public ItemStack getItem(int index) {
+//        return itemHandler.getStackInSlot(index);
+//    }
+//
+//    @Override
+//    public ItemStack removeItem(int slot, int amount) {
+//        return itemHandler.extractItem(slot, amount, false);
+//    }
+//
+//    @Override
+//    public ItemStack removeItemNoUpdate(int slot) {
+//        return itemHandler.extractItem(slot, itemHandler.getSlotLimit(slot), false);
+//    }
+//
+//    @Override
+//    public void setItem(int index, ItemStack stack) {
+//        itemHandler.setStackInSlot(index, stack);
+//    }
+//
+//    @Override
+//    public boolean stillValid(Player player) {
+//        return !this.isRemoved() && player.canInteractWith(this.getBlockPos(), 4);
+//    }
+//
+//    @Override
+//    public void clearContent() {
+//        for(int i=0;i<getContainerSize();i++) {
+//            if (itemHandler.getStackInSlot(i).isEmpty()) {
+//                return;
+//            }
+//            itemHandler.setStackInSlot(i, ItemStack.EMPTY);
+//        }
+//    }
+//
 
     public class CompanionRecyclerInventoryHandler extends ItemStackHandler {
 

@@ -13,6 +13,11 @@ import iskallia.vault.item.CompanionParticleTrailItem;
 import iskallia.vault.item.CompanionRelicItem;
 import iskallia.vault.item.CompanionSeries;
 import iskallia.vault.world.data.PlayerVaultStatsData;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.NumericTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -38,6 +43,26 @@ public class CompanionWorkBenchRecipe extends VaultForgeRecipe {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         int vaultLevel = PlayerVaultStatsData.get(server).getVaultStats(player.getUUID()).getVaultLevel();
         return vaultLevel >= 50;
+    }
+
+    @Override
+    public void addCraftingDisplayTooltip(ItemStack result, List<Component> out) {
+        if(result.is(ModItems.COMPANION_EGG)) {
+            Tag hatchTime = result.getTag() == null ? null : result.getOrCreateTag().get("HatchTime");
+            if (hatchTime instanceof NumericTag numeric) {
+                int time = numeric.getAsInt();
+                int minutes = time / 60;
+                int seconds = time % 60;
+                out.add((new TextComponent("Hatch Time: ")).withStyle((style) -> style.withColor(16777215)).append((new TextComponent(String.format("%d:%02d", minutes, seconds))).withStyle((style) -> style.withColor(11583738))));
+                out.add((new TextComponent("Series: ")).withStyle((style) -> style.withColor(16777215)).append((new TextComponent("Random")).withStyle((style) -> style.withColor(11583738))));
+            }
+        }
+        else if(result.is(ModItems.COMPANION_PARTICLE_TRAIL)) {
+            out.add((new TextComponent("Random Particle Trail").withStyle(ChatFormatting.GOLD)));
+        } else if(result.is(ModItems.COMPANION_RELIC)) {
+            out.add((new TextComponent("Random Relic").withStyle(ChatFormatting.GOLD)));
+        }
+
     }
 
     @Override
@@ -82,6 +107,7 @@ public class CompanionWorkBenchRecipe extends VaultForgeRecipe {
         if(this.getRawOutput().getItem() instanceof  CompanionEggItem) {
             ItemStack companionEgg = new ItemStack(ModItems.COMPANION_EGG);
             CompanionEggItem.setSeries(companionEgg, CompanionSeries.PET);
+            CompanionEggItem.setRemainingTime(companionEgg, 20);
             return companionEgg;
         }
         return super.getRawOutput();

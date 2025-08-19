@@ -4,7 +4,6 @@ import iskallia.vault.client.gui.framework.element.CraftingSelectorElement;
 import iskallia.vault.client.gui.screen.block.base.ForgeRecipeContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import org.jetbrains.annotations.NotNull;
 import net.lawliet.companionWorkStation.blocks.entity.CompanionWorkBenchBlockEntity;
 import net.lawliet.companionWorkStation.menu.CompanionWorkBenchMenu;
 
@@ -14,7 +13,7 @@ public class CompanionWorkBenchScreen extends ForgeRecipeContainerScreen<Compani
     }
 
     @Override
-    protected @NotNull CraftingSelectorElement<?> createCraftingSelector() {
+    protected CraftingSelectorElement<?> createCraftingSelector() {
         return this.makeCraftingSelector();
     }
 }

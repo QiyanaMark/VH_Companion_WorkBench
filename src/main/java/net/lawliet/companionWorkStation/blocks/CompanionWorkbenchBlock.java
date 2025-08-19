@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -30,12 +31,16 @@ import net.lawliet.companionWorkStation.blocks.entity.CompanionWorkBenchBlockEnt
 import net.lawliet.companionWorkStation.blocks.entity.ModBlockEntities;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @SuppressWarnings("deprecation")
 public class CompanionWorkbenchBlock extends Block implements EntityBlock, InventoryRetainerBlock<CompanionWorkBenchBlockEntity> {
     public static final DirectionProperty FACING;
     public static final VoxelShape SHAPE;
-
+    private static final VoxelShape BASE;
+    private static final VoxelShape PILLAR;
+    private static final VoxelShape TOP;
+    private static final VoxelShape EGG;
 
     public CompanionWorkbenchBlock(Properties properties) {
         super(properties);
@@ -121,7 +126,11 @@ public class CompanionWorkbenchBlock extends Block implements EntityBlock, Inven
 
     static {
         FACING = HorizontalDirectionalBlock.FACING;
-        SHAPE = Shapes.block();
+        BASE = Block.box(0, 0, 0, 16, 2, 16);
+        PILLAR = Block.box(4, 2, 4, 12, 14, 12);
+        TOP = Block.box(2, 12, 1, 14, 16, 15);
+        EGG = Block.box(6, 15, 6, 10, 20, 10);
+        SHAPE = Shapes.join(Stream.of(BASE, PILLAR, TOP).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get(), EGG, BooleanOp.OR);
     }
 
 }

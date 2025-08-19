@@ -1,0 +1,19 @@
+{
+  "companionWorkBenchRecipes": [
+    {
+      "id": "the_vault:companion_egg",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:companion_egg",
+        "NBT": "{Series:\"LEGEND\"}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 4,
+          "ITEM": "vault_work_station:companion_essence",
+          "NBT": "{}"
+        }
+      ]
+    }
+  ]
+}

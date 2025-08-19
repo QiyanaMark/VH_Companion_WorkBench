@@ -27,6 +27,14 @@ mandatory=false
 versionRange="[9.7.1,)"
 ordering="AFTER"
 side="BOTH"
+
+
+[[dependencies."vault_work_station"]]
+modId = "the_vault"
+mandatory = true
+versionRange = "[1.18.2-3.19,)"
+ordering = "BEFORE"
+side = "BOTH"
 # A URL to query for updates for this mod. See the JSON update specification https://docs.minecraftforge.net/en/latest/misc/updatechecker/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
@@ -36,7 +44,7 @@ side="BOTH"
 # A text field displayed in the mod UI
 #credits="Thanks for this example mod goes to Java" #optional
 # A text field displayed in the mod UI
-authors = "QiyanaMark" #optional
+authors = "QiyanaMark, Lawliet" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description = '''reworking companion style and introducing ways to get relics'''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.

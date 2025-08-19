@@ -2,6 +2,7 @@ package vault_work_station.menu;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -25,10 +26,14 @@ public class ModMenuTypes {
             ));
 
     // Fixed companion workbench menu
-//    public static final RegistryObject<MenuType<CompanionWorkBenchMenu>> COMPANION_WORKBENCH_MENU =
-//            MENUS.register("companion_workbench_menu", () -> IForgeMenuType.create(
-//                    (windowId, inv, data) -> new CompanionWorkBenchMenu(windowId, inv, data == null ? BlockPos.ZERO : data.readBlockPos())
-//            ));
+    public static final RegistryObject<MenuType<CompanionWorkBenchMenu>> COMPANION_WORKBENCH_MENU =
+            MENUS.register("companion_workbench_menu", () -> IForgeMenuType.create(
+                    (windowId, inv, data) ->{
+                        Level level = inv.player.getLevel();
+                        BlockPos pos = data.readBlockPos();
+                        return new CompanionWorkBenchMenu(windowId, level, pos, inv);
+
+                    }));
 
 
     public static void register(IEventBus eventBus) {

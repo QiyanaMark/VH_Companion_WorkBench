@@ -4,6 +4,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.DeferredRegister;
@@ -29,15 +30,15 @@ public class ModBlocks {
             CompanionTab.COMPANION_TAB
     );
 
-//    public static final RegistryObject<Block> COMPANION_WORKBENCH = registerBlock(
-//            "companion_workbench",
-//            () -> new CompanionWorkbenchBlock(BlockBehaviour.Properties.of(Material.METAL)
-//                    .strength(3.5f)
-//                    .requiresCorrectToolForDrops()
-//                    .sound(SoundType.METAL)
-//                    .noOcclusion()),
-//            CompanionTab.COMPANION_TAB
-//    );
+    public static final RegistryObject<Block> COMPANION_WORKBENCH = registerBlock(
+            "companion_workbench",
+            () -> new CompanionWorkbenchBlock(BlockBehaviour.Properties.of(Material.METAL)
+                    .strength(3.5f)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.METAL)
+                    .noOcclusion()),
+            CompanionTab.COMPANION_TAB
+    );
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab) {
         RegistryObject<T> obj = BLOCKS.register(name, block);

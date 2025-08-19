@@ -1,6 +1,0 @@
-{
-  "type": "vault_work_station:smelting",
-  "input": { "item": "the_vault:companion_particle_trail" },
-  "output": { "item": "vault_work_station:processed_particlefragment", "count": 1 },
-  "processingTime": 200
-}

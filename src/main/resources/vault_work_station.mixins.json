@@ -5,6 +5,8 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "vault_work_station.refmap.json",
   "mixins": [
+    "enumExtension.ForgeRecipeTypeEnumMixin",
+    "enumExtension.ModConfigVaultHuntersMixin"
   ],
   "client": [
   ],

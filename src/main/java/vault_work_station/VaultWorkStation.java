@@ -7,17 +7,20 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.Logger;
 import vault_work_station.Items.ModItems;
 import vault_work_station.blocks.ModBlocks;
 import vault_work_station.blocks.entity.ModBlockEntities;
 
 import vault_work_station.menu.ModMenuTypes;
-//import vault_work_station.screen.CompanionWorkBenchScreen;
+import org.apache.logging.log4j.LogManager;
 import vault_work_station.screen.CompanionRecyclerScreen;
+import vault_work_station.screen.CompanionWorkBenchScreen;
 
 @Mod(VaultWorkStation.MOD_ID)
 public class VaultWorkStation {
     public static final String MOD_ID = "vault_work_station";
+    public static final Logger LOGGER = LogManager.getLogger();
 
     public VaultWorkStation() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -45,7 +48,7 @@ public class VaultWorkStation {
         event.enqueueWork(() -> {
             // Register both screen types
             MenuScreens.register(ModMenuTypes.COMPANION_RECYCLER_MENU.get(), CompanionRecyclerScreen::new);
-//            MenuScreens.register(ModMenuTypes.COMPANION_WORKBENCH_MENU.get(), CompanionWorkBenchScreen::new);
+            MenuScreens.register(ModMenuTypes.COMPANION_WORKBENCH_MENU.get(), CompanionWorkBenchScreen::new);
         });
     }
 }

@@ -97,7 +97,7 @@ public class CompanionRecycleConfig extends Config {
         }
 
         public ItemStack generateCompanionScrapOutput(ItemStack itemStack, int relicMultiplier, int particleTrailMultiplier) {
-            Item returningItem = ModItems.COMPANION_SCRAP.get();
+            Item returningItem = ModItems.COMPANION_FRAGMENT.get();
             if (itemStack.getItem() instanceof CompanionItem) {
                 int relics = CompanionItem.getAllRelics(itemStack).size();
 //                int particleTrails = CompanionItem.getAllRelics(itemStack).size();

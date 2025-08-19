@@ -19,8 +19,8 @@ public abstract class ModItems {
 
     );
 
-    public static final RegistryObject<Item> COMPANION_SCRAP = ITEMS.register(
-            "companion_scrap",
+    public static final RegistryObject<Item> COMPANION_FRAGMENT = ITEMS.register(
+            "companion_fragment",
             () -> new Item(new Item.Properties().tab(CompanionTab.COMPANION_TAB))
     );
 

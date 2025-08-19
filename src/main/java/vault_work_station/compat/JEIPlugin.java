@@ -30,7 +30,7 @@ public class JEIPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration registration) {
         // Existing ingredient info
         registration.addIngredientInfo(
-                new ItemStack(ModItems.COMPANION_SCRAP.get()),
+                new ItemStack(ModItems.COMPANION_FRAGMENT.get()),
                 VanillaTypes.ITEM_STACK,
                 new TranslatableComponent("jei.vault_work_station.particle_fragment.desc")
         );

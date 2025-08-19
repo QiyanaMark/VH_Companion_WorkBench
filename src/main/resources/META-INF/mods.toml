@@ -15,13 +15,13 @@ license = "MIT"
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 # The modid of the mod
-modId = "vault_work_station" #mandatory
+modId = "companion_work_station" #mandatory
 # The version number of the mod
 version = "1.18.2" #mandatory
 # A display name for the mod
 displayName = "Companion Station" #mandatory
 
-[[dependencies.vault_work_station]]
+[[dependencies.companion_work_station]]
 modId="jei"
 mandatory=false
 versionRange="[9.7.1,)"
@@ -29,7 +29,7 @@ ordering="AFTER"
 side="BOTH"
 
 
-[[dependencies."vault_work_station"]]
+[[dependencies.companion_work_station]]
 modId = "the_vault"
 mandatory = true
 versionRange = "[1.18.2-3.19,)"
@@ -40,7 +40,7 @@ side = "BOTH"
 # A URL for the "homepage" for this mod, displayed in the mod UI
 #displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-#logoFile="VaultWorkStation.png" #optional
+#logoFile="CompanionWorkStation.png" #optional
 # A text field displayed in the mod UI
 #credits="Thanks for this example mod goes to Java" #optional
 # A text field displayed in the mod UI
@@ -48,7 +48,7 @@ authors = "QiyanaMark, Lawliet" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description = '''reworking companion style and introducing ways to get relics'''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies."vault_work_station"]] #optional
+[[dependencies.companion_work_station]] #optional
 # the modid of the dependency
 modId = "forge" #mandatory
 # Does this dependency have to exist - if not, ordering below must be specified
@@ -61,7 +61,7 @@ versionRange = "${forge_version_range}" #mandatory
 ordering = "NONE"
 # Side this dependency is applied on - BOTH, CLIENT, or SERVER
 side = "BOTH"# Here's another dependency
-[[dependencies."vault_work_station"]]
+[[dependencies.companion_work_station]]
 modId = "minecraft"
 mandatory = true
 # This version range declares a minimum of the current minecraft version up to but not including the next major version

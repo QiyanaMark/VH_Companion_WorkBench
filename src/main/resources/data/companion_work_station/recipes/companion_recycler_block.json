@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "VDV",
+    "IGI",
+    "VDV"
+  ],
+  "key": {
+    "V": { "item": "the_vault:vault_diamond_block" },
+    "D": { "item": "the_vault:gem_pog" },
+    "G": { "item": "the_vault:companion_egg" },
+    "I": { "item": "the_vault:companion_incubator" }
+  },
+  "result": {
+    "item": "companion_work_station:companion_recycler",
+    "count": 1
+  }
+}

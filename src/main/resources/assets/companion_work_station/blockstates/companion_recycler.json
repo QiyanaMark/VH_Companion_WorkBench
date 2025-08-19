@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "companion_work_station:block/companion_recycler",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "companion_work_station:block/companion_recycler",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "companion_work_station:block/companion_recycler"
+    },
+    "facing=west": {
+      "model": "companion_work_station:block/companion_recycler",
+      "y": 90
+    }
+  }
+}

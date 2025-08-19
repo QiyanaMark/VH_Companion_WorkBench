@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "companion_work_station:block/companion_workbench",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "companion_work_station:block/companion_workbench"
+    },
+    "facing=south": {
+      "model": "companion_work_station:block/companion_workbench",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "companion_work_station:block/companion_workbench",
+      "y": 270
+    }
+  }
+}

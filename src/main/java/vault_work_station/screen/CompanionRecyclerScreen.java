@@ -6,7 +6,9 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import vault_work_station.config.ModConfigs;
 import vault_work_station.menu.CompanionRecyclerMenu;
 import vault_work_station.VaultWorkStation;
 
@@ -14,13 +16,14 @@ public class CompanionRecyclerScreen extends AbstractContainerScreen<CompanionRe
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(VaultWorkStation.MOD_ID, "textures/gui/companion_recycle_gui.png");
 
-    // Arrow configuration (pointing down)
-    private static final int ARROW_X = 80;
-    private static final int ARROW_Y = 36;
-    private static final int ARROW_WIDTH = 22;
-    private static final int ARROW_HEIGHT = 16;
-    private static final int ARROW_U = 176;
-    private static final int ARROW_V = 0;
+    private static final int EMPTY_ARROW_U = 83;
+    private static final int EMPTY_ARROW_V = 37;
+    private static final int FILLED_ARROW_U = 178;
+    private static final int FILLED_ARROW_V = 13;
+    private static final int ARROW_WIDTH = 10;
+    private static final int ARROW_HEIGHT = 15;
+    private static final int ARROW_X = 83;  // where to draw in GUI
+    private static final int ARROW_Y = 37;
 
     public CompanionRecyclerScreen(CompanionRecyclerMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
@@ -34,18 +37,29 @@ public class CompanionRecyclerScreen extends AbstractContainerScreen<CompanionRe
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
-
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
+        // Draw background
         this.blit(poseStack, x, y, 0, 0, imageWidth, imageHeight);
 
-        int progress = menu.getSmeltProgress();
+        // Draw empty arrow background (always full size)
         this.blit(poseStack,
-                x + ARROW_X,
-                y + ARROW_Y,
-                ARROW_U, ARROW_V,
-                ARROW_WIDTH, progress);
+                x + ARROW_X, y + ARROW_Y,
+                EMPTY_ARROW_U, EMPTY_ARROW_V,
+                ARROW_WIDTH, ARROW_HEIGHT);
+
+        // Calculate progress using the scaled method from menu
+        int filledHeight = menu.getSmeltProgressScaled(ARROW_HEIGHT);
+        filledHeight = Mth.clamp(filledHeight, 0, ARROW_HEIGHT);
+
+        // Draw filled portion on top of empty arrow - covering it from top to bottom
+        if (filledHeight > 0) {
+            this.blit(poseStack,
+                    x + ARROW_X, y + ARROW_Y, // start at top
+                    FILLED_ARROW_U, FILLED_ARROW_V, // start at top of filled texture
+                    ARROW_WIDTH, filledHeight); // height of filled part
+        }
     }
 
     @Override
@@ -55,16 +69,14 @@ public class CompanionRecyclerScreen extends AbstractContainerScreen<CompanionRe
         renderTooltip(poseStack, mouseX, mouseY);
     }
 
-
-
     @Override
     protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
         poseStack.pushPose();
-        poseStack.scale(0.8f, 0.8f, 0.8f); // 80% size
+        poseStack.scale(0.8f, 0.8f, 0.8f);
         this.font.draw(poseStack,
                 this.title,
-                10,  // Adjusted X for scaling
-                6,   // Adjusted Y for scaling
+                10,
+                6,
                 0x404040);
         poseStack.popPose();
 
@@ -74,7 +86,7 @@ public class CompanionRecyclerScreen extends AbstractContainerScreen<CompanionRe
         this.font.draw(poseStack,
                 this.playerInventoryTitle,
                 10,
-                (this.imageHeight - 94)/0.8f, // Compensate for scaling
+                (this.imageHeight - 94)/0.8f,
                 0x404040);
         poseStack.popPose();
     }

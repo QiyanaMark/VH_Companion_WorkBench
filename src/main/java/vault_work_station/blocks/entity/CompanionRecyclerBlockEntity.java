@@ -15,6 +15,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -40,7 +41,27 @@ public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuPro
     private LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
 
     private int smeltTime = 0;
-//    private static final int SMELT_TIME_TOTAL = 200; // ticks (10s)
+
+    // ContainerData for syncing with client
+    protected final ContainerData dataAccess = new ContainerData() {
+        public int get(int index) {
+            return switch (index) {
+                case 0 -> CompanionRecyclerBlockEntity.this.smeltTime;
+                case 1 -> ModConfigs.COMPANION_RECYCLE.getSmeltingTickTime();
+                default -> 0;
+            };
+        }
+
+        public void set(int index, int value) {
+            switch (index) {
+                case 0 -> CompanionRecyclerBlockEntity.this.smeltTime = value;
+            }
+        }
+
+        public int getCount() {
+            return 2;
+        }
+    };
 
     public CompanionRecyclerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.COMPANION_RECYCLER_BLOCK_ENTITY.get(), pos, state);
@@ -109,8 +130,6 @@ public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuPro
         return  MiscUtilsAdditions.canFullyMergeIntoSlot(this.itemHandler, 3, result.getCompanionScrapOutput());
     }
 
-
-
     private void doSmelt() {
         ItemStack in = itemHandler.getStackInSlot(0).copy();
         CompanionRecycleConfig.RecycleOutput result = getResults(in);
@@ -129,9 +148,6 @@ public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuPro
             }
         }
         if(result != null) {
-//            itemHandler.insertItem(1, result.getRetiredCompanionOutput(),false);
-//            itemHandler.setStackInSlot(2, result.getCompanionEssenceOutput(), false);
-//            itemHandler.setStackInSlot(3, result.getCompanionScrapOutput());
             MiscUtilsAdditions.insertIntoSlot(itemHandler, 1, result.getRetiredCompanionOutput());
             MiscUtilsAdditions.insertIntoSlot(itemHandler, 2, result.getCompanionEssenceOutput());
             MiscUtilsAdditions.insertIntoSlot(itemHandler, 3, result.getCompanionScrapOutput());
@@ -167,7 +183,6 @@ public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuPro
         handler.invalidate();
     }
 
-
     @Override
     protected void saveAdditional(CompoundTag tag) {
         tag.put("inv", itemHandler.serializeNBT());
@@ -196,7 +211,6 @@ public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuPro
         return new TranslatableComponent("menu.companion_recycler");
     }
 
-
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int id, net.minecraft.world.entity.player.Inventory inv, Player player) {
@@ -206,6 +220,11 @@ public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuPro
     // Expose item handler to menu
     public IItemHandler getItemHandler() {
         return itemHandler;
+    }
+
+    // Expose data access to menu
+    public ContainerData getDataAccess() {
+        return dataAccess;
     }
 
     public void drops(Level level, BlockPos pos) {
@@ -252,5 +271,4 @@ public class CompanionRecyclerBlockEntity extends BlockEntity implements MenuPro
             CompanionRecyclerBlockEntity.this.triggerItemChange();
         }
     }
-
 }

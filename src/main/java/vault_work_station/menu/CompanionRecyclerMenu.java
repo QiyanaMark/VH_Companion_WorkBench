@@ -4,6 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -20,6 +21,7 @@ public class CompanionRecyclerMenu extends AbstractContainerMenu {
     private final BlockPos pos;
     private final IItemHandler blockHandler;
     private final Inventory playerInv; // Store player inventory reference
+    private final ContainerData data; // ContainerData for syncing progress
 
     // Server-side constructor
     public CompanionRecyclerMenu(int id, Inventory playerInv, BlockPos pos) {
@@ -30,8 +32,10 @@ public class CompanionRecyclerMenu extends AbstractContainerMenu {
         BlockEntity be = playerInv.player.level.getBlockEntity(pos);
         if (be instanceof CompanionRecyclerBlockEntity sb) {
             this.blockHandler = sb.getItemHandler();
+            this.data = sb.getDataAccess(); // Get the data access from block entity
+            addDataSlots(this.data); // Add data slots for syncing
         } else {
-            throw new ValueException("Not a Companion recycler at %s".formatted(be.getBlockPos()));
+            throw new ValueException("Not a Companion recycler at %s".formatted(pos));
         }
 
         // Block slots - VERTICAL LAYOUT
@@ -109,11 +113,19 @@ public class CompanionRecyclerMenu extends AbstractContainerMenu {
     }
 
     public int getSmeltProgress() {
-        if (!playerInv.player.level.isClientSide) {
-            BlockEntity be = playerInv.player.level.getBlockEntity(pos);
-            if (be instanceof CompanionRecyclerBlockEntity smelter) {
-                return smelter.getSmeltProgressScaled(24);
-            }
+        if (this.data.getCount() > 0) {
+            int currentTime = this.data.get(0); // Current smelt time
+            int totalTime = this.data.get(1); // Total smelt time
+            return totalTime > 0 ? currentTime : 0;
+        }
+        return 0;
+    }
+
+    public int getSmeltProgressScaled(int scale) {
+        if (this.data.getCount() > 0) {
+            int currentTime = this.data.get(0); // Current smelt time
+            int totalTime = this.data.get(1); // Total smelt time
+            return totalTime > 0 ? (currentTime * scale) / totalTime : 0;
         }
         return 0;
     }

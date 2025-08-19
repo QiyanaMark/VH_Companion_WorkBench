@@ -2,6 +2,7 @@ package vault_work_station;
 
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -12,6 +13,7 @@ import vault_work_station.Items.ModItems;
 import vault_work_station.blocks.ModBlocks;
 import vault_work_station.blocks.entity.ModBlockEntities;
 
+import vault_work_station.event.PlayerLogin;
 import vault_work_station.menu.ModMenuTypes;
 import org.apache.logging.log4j.LogManager;
 import vault_work_station.screen.CompanionRecyclerScreen;
@@ -35,6 +37,7 @@ public class VaultWorkStation {
         modBus.addListener(this::commonSetup);  // For common setup (networking, etc.)
         modBus.addListener(this::onClientSetup); // For client-only setup (GUI, rendering)
 
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, PlayerLogin::onPlayerLoggedIn);
         // Register for server/global events
         MinecraftForge.EVENT_BUS.register(this);
     }

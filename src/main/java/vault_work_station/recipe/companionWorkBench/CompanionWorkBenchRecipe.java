@@ -8,12 +8,17 @@ import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModItems;
+import iskallia.vault.item.CompanionEggItem;
+import iskallia.vault.item.CompanionParticleTrailItem;
 import iskallia.vault.item.CompanionRelicItem;
+import iskallia.vault.item.CompanionSeries;
 import iskallia.vault.world.data.PlayerVaultStatsData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,21 +35,35 @@ public class CompanionWorkBenchRecipe extends VaultForgeRecipe {
 
     @Override
     public boolean canCraft(Player player) {
-        if(player instanceof ServerPlayer serverPlayer) {
-            int vaultLevel = PlayerVaultStatsData.get(serverPlayer.getServer()).getVaultStats(player.getUUID()).getVaultLevel();
-            return vaultLevel >= 50;
-        }
-        return false;
+        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+        int vaultLevel = PlayerVaultStatsData.get(server).getVaultStats(player.getUUID()).getVaultLevel();
+        return vaultLevel >= 50;
     }
 
     @Override
     public ItemStack createOutput(List<OverSizedItemStack> consumed, ServerPlayer crafter, int vaultLevel) {
         ItemStack stack = this.getRawOutput();
+        if(stack.is(ModItems.COMPANION_EGG)) {
+            return createRandomEgg();
+        }
         if(stack.is(ModItems.COMPANION_RELIC)) {
             return createRandomRelic(vaultLevel);
         }
+        if(stack.is(ModItems.COMPANION_PARTICLE_TRAIL)) {
+            return createRandomParticleTrails();
+        }
         
         return stack;
+    }
+
+    private ItemStack createRandomParticleTrails() {
+        return CompanionParticleTrailItem.createRandom();
+    }
+
+    private ItemStack createRandomEgg() {
+        ItemStack companionEgg = new ItemStack(ModItems.COMPANION_EGG);
+        CompanionEggItem.setSeries(companionEgg, CompanionSeries.getRandomSeries(JavaRandom.ofNanoTime()));
+        return companionEgg;
     }
 
     private ItemStack createRandomRelic(int vaultLevel) {
@@ -57,4 +76,16 @@ public class CompanionWorkBenchRecipe extends VaultForgeRecipe {
         stack.setCount(vault_work_station.config.ModConfigs.COMPANION_RECYCLE.getCompanionScrapFromRecycleRelic());
         return stack;
     }
+
+    @Override
+    public ItemStack getDisplayOutput(int vaultLevel) {
+        if(this.getRawOutput().getItem() instanceof  CompanionEggItem) {
+            ItemStack companionEgg = new ItemStack(ModItems.COMPANION_EGG);
+            CompanionEggItem.setSeries(companionEgg, CompanionSeries.PET);
+            return companionEgg;
+        }
+        return super.getRawOutput();
+    }
+
+
 }

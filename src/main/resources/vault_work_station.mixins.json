@@ -6,7 +6,7 @@
   "refmap": "vault_work_station.refmap.json",
   "mixins": [
     "enumExtension.ForgeRecipeTypeEnumMixin",
-    "enumExtension.ModConfigVaultHuntersMixin"
+    "ModConfigVaultHuntersMixin"
   ],
   "client": [
   ],

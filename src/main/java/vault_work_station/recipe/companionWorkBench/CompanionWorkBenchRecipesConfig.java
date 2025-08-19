@@ -3,9 +3,6 @@ package vault_work_station.recipe.companionWorkBench;
 import com.google.gson.annotations.Expose;
 import iskallia.vault.config.recipe.ForgeRecipeType;
 import iskallia.vault.config.recipe.ForgeRecipesConfig;
-import iskallia.vault.core.random.JavaRandom;
-import iskallia.vault.item.CompanionEggItem;
-import iskallia.vault.item.CompanionSeries;
 import net.minecraft.world.item.ItemStack;
 import vault_work_station.Items.ModItems;
 import vault_work_station.VaultWorkStation;
@@ -30,22 +27,21 @@ public class CompanionWorkBenchRecipesConfig extends ForgeRecipesConfig<ConfigCo
 
     @Override
     protected void reset() {
-        ConfigCompanionWorkBenchRecipe companionEgg = new ConfigCompanionWorkBenchRecipe(createCompanionEgg());
+        companionWorkBenchRecipes.clear();
+        ConfigCompanionWorkBenchRecipe companionEgg = new ConfigCompanionWorkBenchRecipe(new ItemStack(iskallia.vault.init.ModItems.COMPANION_EGG));
         companionEgg.addInput(new ItemStack(ModItems.COMPANION_ESSENCE.get(), 4));
+        companionEgg.addInput(new ItemStack(iskallia.vault.init.ModItems.EXTRAORDINARY_BENITOITE, 4));
+        companionEgg.addInput(new ItemStack(iskallia.vault.init.ModItems.POG, 4));
         companionWorkBenchRecipes.add(companionEgg);
 
-//        ConfigCompanionWorkBenchRecipe companionRelic = new ConfigCompanionWorkBenchRecipe(createCompanionRelic());
-//        companionRelic.addInput(new ItemStack(ModItems.COMPANION_SCRAP.get(),12));
-//        companionWorkBenchRecipes.add(companionRelic);
-    }
+        ConfigCompanionWorkBenchRecipe companionRelic = new ConfigCompanionWorkBenchRecipe(new ItemStack(iskallia.vault.init.ModItems.COMPANION_RELIC));
+        companionRelic.addInput(new ItemStack(ModItems.COMPANION_FRAGMENT.get(),12));
+        companionRelic.addInput(new ItemStack(iskallia.vault.init.ModItems.VAULT_CATALYST_FRAGMENT, 18));
+        companionWorkBenchRecipes.add(companionRelic);
 
-    private ItemStack createCompanionRelic() {
-        return ItemStack.EMPTY;
-    }
-
-    private ItemStack createCompanionEgg() {
-        ItemStack companionEgg = new ItemStack(iskallia.vault.init.ModItems.COMPANION_EGG);
-        CompanionEggItem.setSeries(companionEgg, CompanionSeries.getRandomSeries(JavaRandom.ofNanoTime()));
-        return companionEgg;
+        ConfigCompanionWorkBenchRecipe companionParticleTrail = new ConfigCompanionWorkBenchRecipe(new ItemStack(iskallia.vault.init.ModItems.COMPANION_PARTICLE_TRAIL));
+        companionParticleTrail.addInput(new ItemStack(ModItems.COMPANION_FRAGMENT.get(), 4));
+        companionParticleTrail.addInput(new ItemStack(iskallia.vault.init.ModItems.EXTRAORDINARY_LARIMAR));
+        companionWorkBenchRecipes.add(companionParticleTrail);
     }
 }

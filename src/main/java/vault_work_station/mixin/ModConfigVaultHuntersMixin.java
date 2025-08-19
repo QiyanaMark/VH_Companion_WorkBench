@@ -1,4 +1,4 @@
-package vault_work_station.mixin.enumExtension;
+package vault_work_station.mixin;
 
 import iskallia.vault.init.ModConfigs;
 import org.spongepowered.asm.mixin.Mixin;

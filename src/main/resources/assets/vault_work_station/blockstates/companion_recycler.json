@@ -1,5 +1,19 @@
 {
   "variants": {
-    "": { "model": "vault_work_station:block/companion_recycler" }
+    "facing=east": {
+      "model": "vault_work_station:block/companion_recycler",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "vault_work_station:block/companion_recycler",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "vault_work_station:block/companion_recycler"
+    },
+    "facing=west": {
+      "model": "vault_work_station:block/companion_recycler",
+      "y": 90
+    }
   }
 }

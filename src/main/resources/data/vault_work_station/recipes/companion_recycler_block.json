@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "VDV",
-    "GIG",
+    "IGI",
     "VDV"
   ],
   "key": {
@@ -12,7 +12,7 @@
     "I": { "item": "the_vault:companion_incubator" }
   },
   "result": {
-    "item": "vault_work_station:smelter_block",
+    "item": "vault_work_station:companion_recycler",
     "count": 1
   }
 }

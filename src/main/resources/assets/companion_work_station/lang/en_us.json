@@ -5,10 +5,9 @@
  "block.companion_work_station.companion_recycler": "Companion Recycler",
  "block.companion_work_station.companion_workbench": "Companion Workbench",
 
- "jei.companion_work_station.relic_fragment.desc": "a relic fragment obtained by smelting a relic fragment",
- "jei.companion_work_station.particle_fragment.desc": "a particle fragment obtained by smelting a companion relic or particle trail",
- "jei.companion_work_station.companion_essence.desc": "an essence obtained by smelting a companion through the companion recycler.",
- "jei.companion_work_station.smelter_block.desc": "Vault Companion Recycler to cycle your companion for essence",
+ "jei.item.companion_work_station.companion_fragment.desc": "A companion fragment obtained by smelting a companion relic or particle trail",
+ "jei.item.companion_work_station.companion_essence.desc": "An essence obtained by smelting a companion through the companion recycler.",
+ "jei.companion_work_station.companion_recycler.desc": "Vault Companion Recycler to cycle your companion for essence.",
  "menu.companion_recycler": "Companion Recycler",
  "container.companion_workbench": "Companion Workbench"
 }

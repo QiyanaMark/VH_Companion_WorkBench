@@ -85,6 +85,11 @@ public class CompanionWorkBenchRecipe extends VaultForgeRecipe {
         return stack;
     }
 
+    @Override
+    public List<Component> getDisabledText() {
+        return List.of(new TextComponent("Unlocked at level 50+.").withStyle(ChatFormatting.RED));
+    }
+
     private ItemStack createRandomParticleTrails() {
         return CompanionParticleTrailItem.createRandom();
     }

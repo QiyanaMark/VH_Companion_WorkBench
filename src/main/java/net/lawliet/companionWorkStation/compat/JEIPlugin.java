@@ -8,6 +8,7 @@ import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.lawliet.companionWorkStation.CompanionWorkStation;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.TranslatableComponent;
 import org.jetbrains.annotations.NotNull;
@@ -32,16 +33,20 @@ public class JEIPlugin implements IModPlugin {
         registration.addIngredientInfo(
                 new ItemStack(ModItems.COMPANION_FRAGMENT.get()),
                 VanillaTypes.ITEM_STACK,
-                new TranslatableComponent("jei.vault_work_station.particle_fragment.desc")
+                new TranslatableComponent(makeDescriptionTranslationComponent(ModItems.COMPANION_FRAGMENT.get()))
         );
         registration.addIngredientInfo(
                 new ItemStack(ModItems.COMPANION_ESSENCE.get()),
                 VanillaTypes.ITEM_STACK,
-                new TranslatableComponent("jei.vault_work_station.companion_essence.desc")
+                new TranslatableComponent(makeDescriptionTranslationComponent(ModItems.COMPANION_ESSENCE.get()))
         );
 
         // Register Companion Workbench recipes
 
+    }
+
+    private static String makeDescriptionTranslationComponent(Item item) {
+        return "jei." + item.getDescriptionId() + ".desc";
     }
 
     @Override

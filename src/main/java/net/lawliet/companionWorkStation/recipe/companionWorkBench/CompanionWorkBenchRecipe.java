@@ -1,5 +1,6 @@
 package net.lawliet.companionWorkStation.recipe.companionWorkBench;
 
+import iskallia.vault.client.gui.overlay.VaultBarOverlay;
 import iskallia.vault.config.CompanionRelicsConfig;
 import iskallia.vault.config.recipe.ForgeRecipeType;
 import iskallia.vault.container.oversized.OverSizedItemStack;
@@ -19,11 +20,9 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,9 +39,14 @@ public class CompanionWorkBenchRecipe extends VaultForgeRecipe {
 
     @Override
     public boolean canCraft(Player player) {
-        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        int vaultLevel = PlayerVaultStatsData.get(server).getVaultStats(player.getUUID()).getVaultLevel();
-        return vaultLevel >= 50;
+        if (player instanceof ServerPlayer serverPlayer) {
+            int vaultLevel = PlayerVaultStatsData.get(serverPlayer.server)
+                    .getVaultStats(serverPlayer.getUUID())
+                    .getVaultLevel();
+            return vaultLevel >= 50;
+        }
+        // Client side – use synced overlay data
+        return VaultBarOverlay.vaultLevel >= 50;
     }
 
     @Override

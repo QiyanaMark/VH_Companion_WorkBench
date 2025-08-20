@@ -34,7 +34,7 @@ public class MiscUtilsAdditions {
         if (!MiscUtils.canMerge(existing, stack)) {
             return stack;
         }
-        ItemStack newStack = stack.copy();
+        ItemStack newStack = existing.copy();
         newStack.grow(stack.getCount());
         handler.setStackInSlot(slot, newStack);
         return ItemStack.EMPTY;

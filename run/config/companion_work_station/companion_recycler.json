@@ -1,5 +1,5 @@
 {
-  "smeltTimer": 200,
+  "smeltTimer": 40,
   "companionEssenceDrop": 1,
   "companionScrapFromRecycleRelic": 4,
   "companionScrapFromRecycleParticleTrail": 1,

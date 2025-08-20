@@ -40,9 +40,14 @@ public class CompanionWorkBenchRecipe extends VaultForgeRecipe {
 
     @Override
     public boolean canCraft(Player player) {
-        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        int vaultLevel = PlayerVaultStatsData.get(server).getVaultStats(player.getUUID()).getVaultLevel();
-        return vaultLevel >= 50;
+        if (player instanceof ServerPlayer sPlayer) {
+            int vaultLevel = PlayerVaultStatsData.get(sPlayer.server)
+                    .getVaultStats(sPlayer.getUUID())
+                    .getVaultLevel();
+            return vaultLevel >= 50;
+        }
+        // Client side – use synced overlay data
+        return VaultBarOverlay.vaultLevel >= 50;
     }
 
     @Override
